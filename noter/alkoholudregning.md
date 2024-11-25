@@ -70,3 +70,8 @@ Efter 2 timer er hans promille reduceret til 0.56 ‰.
 1. Kroppen fordeler alkoholen jævnt i alt kropsvæsken.
 2. Nedbrydningen sker med en fast hastighed (0.15 ‰ pr. time).
 3. Formlen tager ikke højde for individuelle forskelle som metabolisme, helbred, alder, eller medicin.
+
+### **Kilder**
+  - **Forensic Toxicology:** *Principles of Forensic Toxicology* af Barry Levine (4. udgave, 2013).
+  - **Sundhedsstyrelsen (DK):** En genstand svarer til 12 gram alkohol, hvilket ofte findes i en øl (33 cl), et glas vin (12 cl), eller en drink med spiritus (4 cl).
+  Se Sundhedsstyrelsens retningslinjer for alkoholforbrug: [sundhedsstyrelsen.dk](https://www.sundhedsstyrelsen.dk).
