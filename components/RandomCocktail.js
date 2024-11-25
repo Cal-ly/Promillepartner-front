@@ -5,7 +5,7 @@ export default {
       <button @click="fetchRandomCocktail">Hent en tilfældig cocktail</button>
       <div v-if="cocktail" class="cocktail-details">
         <h3>{{ cocktail.strDrink }}</h3>
-        <img :src="cocktail.strDrinkThumb" :alt="cocktail.strDrink" />
+        <img :src="cocktail.strDrinkThumb" :alt="cocktail.strDrink" style="width: 150px; height: 150px;" />
         <p><strong>Kategori:</strong> {{ cocktail.strCategory }}</p>
         <p><strong>Type:</strong> {{ cocktail.strAlcoholic }}</p>
         <p><strong>Glas:</strong> {{ cocktail.strGlass }}</p>
