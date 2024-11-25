@@ -1,13 +1,12 @@
-import PromilleCalculator from "./components/PromilleCalculator.vue";
-import RandomCocktail from './components/RandomCocktail.vue';
+import PromilleCalculator from './components/PromilleCalculator.js';
+import RandomCocktail from './components/RandomCocktail.js';
 
-const { createApp } = Vue;
+const app = Vue.createApp({
+  components: {
+    PromilleCalculator,
+    RandomCocktail,
+  },
+});
 
-const app = createApp({
-    components: {
-      PromilleCalculator,
-      RandomCocktail,
-    },
-  });
+app.mount('#app');
 
-app.mount("#app");
