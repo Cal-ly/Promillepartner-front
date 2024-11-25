@@ -7,23 +7,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>Promille Partner</h1>
-
-    <!-- PromilleCalculator Component -->
-    <promille-calculator></promille-calculator>
-
-    <!-- Cocktails Viewer -->
-    <div class="cocktails">
-      <h2>Drinks fra CocktailsDB</h2>
-      <button @click="fetchDrinks">Hent Drinks</button>
-      <ul v-if="drinks.length">
-        <li v-for="drink in drinks" :key="drink.id">{{ drink.name }}</li>
-      </ul>
-    </div>
-  </div>
-
+  <div id="app"></div>
+  <!-- Import Vue JS Bundle -->
   <script src="https://unpkg.com/vue@3"></script>
-  <script src="app.js" type="module"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

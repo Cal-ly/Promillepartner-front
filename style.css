@@ -23,42 +23,6 @@ body {
     background-color: #0056b3;
   }
   
-  .calculator, .cocktails {
-    margin: 20px 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .calculator form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .calculator label {
-    margin-top: 10px;
-  }
-  
-  .calculator input,
-  .calculator select {
-    margin: 5px 0;
-    padding: 8px;
-    font-size: 1rem;
-  }
-  
-  .calculator button {
-    margin-top: 15px;
-  }
-  
-  .result {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    background-color: #e7f3ff;
-  }
-  
   ul {
     list-style-type: none;
     padding: 0;
@@ -71,4 +35,3 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
   }
-  
