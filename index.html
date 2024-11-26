@@ -6,16 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promille Partner</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
 
   <body>
     <div id="app">
       <promille-calculator></promille-calculator>
       <random-cocktail></random-cocktail>
-    </div>    
+    </div> 
+    <div id="upload">
+      <h2>Vis person</h2>
+      <label for="id">Id:</label>
+      <input type="number" id="id" v-model.number="id" required />
+      <button @click="showPersonById">Vis person</button>
+      Id:{{shownPerson.id}} Age:{{shownPerson.age}} Weight:{{shownPerson.weight}}
 
-    <script src="https://unpkg.com/vue@3"></script>
+      <h2>Indtast oplysninger</h2>
+
+      <label for="gender">Køn:</label>
+      <select id="gender" v-model="enteredGender">
+        <option value="male">Mand</option>
+        <option value="female">Kvinde</option>
+      </select>
+
+      <label for="weight">Vægt (kg):</label>
+      <input type="number" id="weight" v-model.number="enteredWeight" required />
+
+      <label for="age">Alder:</label>
+      <input type="number" id="age" v-model.number="enteredAge" required />
+
+      <button @click="addPerson">Gem mine oplysninger</button>
+
+      <p>{{creationMessage}}</p>
+      <p>{{addMessage}}</p>
+     
+      <ul id="results">
+        <li v-for="person in shownRecords"></li>
+    </ul>
+    </div>   
+
     <script type="module" src="app.js"></script>
+    <script src="test.js"></script>
   </body>
 
 </html>
