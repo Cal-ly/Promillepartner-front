@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promille Partner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="darkmode.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -14,9 +15,9 @@
 
   <body>
   <!-- Lige nu virker selve navigation ikke på siden, men der er heller ikke nok på siden, så man kan se at det virker anyways -->
-  <!-- Styling to-come så det ser bedre ud, men ville bare lige have en navbar oppe at køre -->
+  <!-- Styling på selve navbar i light-mode skal fikses, men det skal jeg nok få gjort i dag 27/11. -->
   <!-- dropdown class = dropdown-toggle -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg" style="background-color: #ffffff;">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Promille Partner</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +42,9 @@
                   <img src="https://via.placeholder.com/30" alt="User" class="rounded-circle" style="width: 30px; height: 30px;"> Hej Bruger!
                 </a>
               </li>
+              <button id="dark-mode-toggle" class="btn btn-secondary">
+                <span id="dark-mode-icon">🌙</span> Toggle Dark Mode
+            </button>
             </ul>
           </div>
         </div>
@@ -82,6 +86,7 @@
 
     <script type="module" src="app.js"></script>
     <script src="test.js"></script>
+    <script src="dark-mode.js"></script>
   </body>
 
 </html>
