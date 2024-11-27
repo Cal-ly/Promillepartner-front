@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
   template: `
     <div class="random-cocktail">
@@ -42,11 +44,10 @@ export default {
   methods: {
     async fetchRandomCocktail() {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://www.thecocktaildb.com/api/json/v1/1/random.php"
         );
-        const data = await response.json();
-        this.cocktail = data.drinks[0];
+        this.cocktail = response.data.drinks[0];
       } catch (error) {
         console.error("Fejl ved hentning af cocktail:", error);
       }

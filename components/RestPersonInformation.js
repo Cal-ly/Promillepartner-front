@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseUrl = "https://promillepartnerbackendtest.azurewebsites.net/api/person";
 
 export default {
@@ -63,8 +65,8 @@ export default {
     },
     async showAllPersons() {
       try {
-        const response = await fetch(baseUrl);
-        this.shownRecords = await response.json();
+        const response = await axios.get(baseUrl);
+        this.shownRecords = response.data;
         return this.shownRecords; // Return the fetched data
       } catch (ex) {
         alert(ex.message);
