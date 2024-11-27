@@ -29,7 +29,7 @@ export default {
       <p>{{addMessage}}</p>
      
       <ul id="results">
-        <li v-for="person in shownRecords"></li>
+        <li v-for="person in shownRecords">Age:{{person.age}} ID:{{person.id}} Record:{{person.weight}}</li>
     </ul>
     </div>  
   `,
@@ -53,8 +53,6 @@ export default {
   },
   methods: {
     async showPersonById() {
-
-      //this.shownRecords = JSON.destringify(await axios.get(baseUrl).data);
       try {
           const response = await axios.get(`${baseUrl}/${this.id}`)
           this.shownRecords = []
@@ -65,8 +63,6 @@ export default {
       }
   },
   async showAllPersons() {
-
-      //this.shownRecords = JSON.destringify(await axios.get(baseUrl).data);
       try {
           const response = await axios.get(`${baseUrl}`)
           this.shownRecords = []
@@ -90,9 +86,7 @@ export default {
           this.addMessage = "response " + responseFromAPI.status + " " + responseFromAPI.statusText
           this.creationMessage = responseFromAPI.text
       } catch (ex) {
-
           alert(ex)
-
       } finally {
           const responseData = await responseFromAPI.data;
           console.log(responseData)
