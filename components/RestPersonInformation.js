@@ -2,12 +2,12 @@ const baseUrl = "https://promillepartnerbackendtest.azurewebsites.net/api/person
 
 export default {
   template: `
-    <div id="upload">
+    <div id="person">
       <h2>Vis person</h2>
       <label for="id">Id:</label>
       <input type="number" id="id" v-model.number="id" required />
       <button @click="showPersonById">Vis person</button>
-      Id:{{shownPerson.id}} Age:{{shownPerson.age}} Weight:{{shownPerson.weight}}
+      Id: {{ shownPerson.id }} Age: {{ shownPerson.age }} Weight: {{ shownPerson.weight }}
 
       <h2>Indtast oplysninger</h2>
 
@@ -25,28 +25,28 @@ export default {
 
       <button @click="addPerson">Gem mine oplysninger</button>
 
-      <p>{{creationMessage}}</p>
-      <p>{{addMessage}}</p>
-     
+      <p>{{ creationMessage }}</p>
+      <p>{{ addMessage }}</p>
+
+      <button @click="showAllPersons">Vis alle personer</button>
       <ul id="results">
-        <li v-for="person in shownRecords">Age:{{person.age}} ID:{{person.id}} Record:{{person.weight}}</li>
-    </ul>
+        <li v-for="person in shownRecords">ID: {{ person.id }} Age: {{ person.age }}  Weight : {{ person.weight }}</li>
+      </ul>
     </div>  
   `,
   data() {
     return {
       shownRecords: [],
-      shownPerson: [],
-      enteredGender: "man",
+      shownPerson: {},
+      enteredGender: "male",
       enteredWeight: 0,
       enteredAge: 0,
       id: 0,
       addData: {
-          man: true,
-          weight: 0,
-          age: 0
+        gender: true,
+        weight: 0,
+        age: 0
       },
-      searchId: 0,
       creationMessage: "",
       addMessage: ""
     };
@@ -54,49 +54,39 @@ export default {
   methods: {
     async showPersonById() {
       try {
-          const response = await axios.get(`${baseUrl}/${this.id}`)
-          this.shownRecords = []
-          this.shownPerson = await response.data;
-          console.log(this.shownRecords)
+        const response = await axios.get(`${baseUrl}/${this.id}`);
+        this.shownPerson = response.data;
+        return this.shownPerson; // Return the fetched data
       } catch (ex) {
-          alert(ex.message) 
-      }
-  },
-  async showAllPersons() {
-      try {
-          const response = await axios.get(`${baseUrl}`)
-          this.shownRecords = []
-          this.shownRecords = await response.data;
-          console.log(this.shownRecords)
-      } catch (ex) {
-          alert(ex.message) 
-      }
-  },
-  async addPerson(){
-      if(this.enteredGender == "man") {
-        this.addData.gender = true;
-      } else {
-        this.addData.gender = false;
-      }
-      this.addData.weight = this.enteredWeight;
-      this.addData.age = this.enteredAge;
-      
-      try {
-          responseFromAPI = await axios.post("https://promillepartnerbackendtest.azurewebsites.net/api/person", json=this.addData)
-          this.addMessage = "response " + responseFromAPI.status + " " + responseFromAPI.statusText
-          this.creationMessage = responseFromAPI.text
-      } catch (ex) {
-          alert(ex)
-      } finally {
-          const responseData = await responseFromAPI.data;
-          console.log(responseData)
-          this.creationMessage = `Dine oplysninger er gemt dit id er ${responseData.id}`
-          const values = await responseFromAPI.data;
-          this.enteredGender = values.gender;
-          this.enteredAge = values.age;
-          this.enteredWeight = values.weight;
-          this.id = values.id;
+        alert(ex.message);
       }
     },
-  },
+    async showAllPersons() {
+      try {
+        const response = await fetch(baseUrl);
+        this.shownRecords = await response.json();
+        return this.shownRecords; // Return the fetched data
+      } catch (ex) {
+        alert(ex.message);
+      }
+    },
+    async addPerson() {
+      this.addData.gender = this.enteredGender === "male";
+      this.addData.weight = this.enteredWeight;
+      this.addData.age = this.enteredAge;
+
+      try {
+        const response = await axios.post(baseUrl, this.addData);
+        this.addMessage = `Response: ${response.status} ${response.statusText}`;
+        const responseData = response.data;
+        this.creationMessage = `Dine oplysninger er gemt dit id er ${responseData.id}`;
+        this.enteredGender = responseData.gender ? "male" : "female";
+        this.enteredAge = responseData.age;
+        this.enteredWeight = responseData.weight;
+        this.id = responseData.id;
+      } catch (ex) {
+        alert(ex.message);
+      }
+    }
+  }
 };
