@@ -1,8 +1,15 @@
+const baseUrl = "https://promillepartnerbackendtest.azurewebsites.net/api/person";
+
 export default {
   template: `
-    <div class="rest-person-communication">
+    <div id="upload">
+      <h2>Vis person</h2>
+      <label for="id">Id:</label>
+      <input type="number" id="id" v-model.number="id" required />
+      <button @click="showPersonById">Vis person</button>
+      Id:{{shownPerson.id}} Age:{{shownPerson.age}} Weight:{{shownPerson.weight}}
+
       <h2>Indtast oplysninger</h2>
-      
 
       <label for="gender">Køn:</label>
       <select id="gender" v-model="enteredGender">
@@ -16,25 +23,60 @@ export default {
       <label for="age">Alder:</label>
       <input type="number" id="age" v-model.number="enteredAge" required />
 
-      <button @click="addRecord">Gem mine oplysninger</button>
+      <button @click="addPerson">Gem mine oplysninger</button>
 
-    </div>
+      <p>{{creationMessage}}</p>
+      <p>{{addMessage}}</p>
+     
+      <ul id="results">
+        <li v-for="person in shownRecords"></li>
+    </ul>
+    </div>  
   `,
   data() {
     return {
+      shownRecords: [],
+      shownPerson: [],
       enteredGender: "man",
       enteredWeight: 0,
       enteredAge: 0,
+      id: 0,
       addData: {
-        man: true,
-        weight: 0,
-        age: 0
+          man: true,
+          weight: 0,
+          age: 0
       },
-      searchId: 0
+      searchId: 0,
+      creationMessage: "",
+      addMessage: ""
     };
   },
-  computed: {
-    async addRecord(){
+  methods: {
+    async showPersonById() {
+
+      //this.shownRecords = JSON.destringify(await axios.get(baseUrl).data);
+      try {
+          const response = await axios.get(`${baseUrl}/${this.id}`)
+          this.shownRecords = []
+          this.shownPerson = await response.data;
+          console.log(this.shownRecords)
+      } catch (ex) {
+          alert(ex.message) 
+      }
+  },
+  async showAllPersons() {
+
+      //this.shownRecords = JSON.destringify(await axios.get(baseUrl).data);
+      try {
+          const response = await axios.get(`${baseUrl}`)
+          this.shownRecords = []
+          this.shownRecords = await response.data;
+          console.log(this.shownRecords)
+      } catch (ex) {
+          alert(ex.message) 
+      }
+  },
+  async addPerson(){
       if(this.enteredGender == "man") {
         this.addData.gender = true;
       } else {
@@ -42,11 +84,24 @@ export default {
       }
       this.addData.weight = this.enteredWeight;
       this.addData.age = this.enteredAge;
+      
       try {
-          response = await axios.post("https://localhost:7175/api/person", this.addData)
-          //this.addMessage = "response " + response.status + " " + response.statusText
+          responseFromAPI = await axios.post("https://promillepartnerbackendtest.azurewebsites.net/api/person", json=this.addData)
+          this.addMessage = "response " + responseFromAPI.status + " " + responseFromAPI.statusText
+          this.creationMessage = responseFromAPI.text
       } catch (ex) {
+
           alert(ex)
+
+      } finally {
+          const responseData = await responseFromAPI.data;
+          console.log(responseData)
+          this.creationMessage = `Dine oplysninger er gemt dit id er ${responseData.id}`
+          const values = await responseFromAPI.data;
+          this.enteredGender = values.gender;
+          this.enteredAge = values.age;
+          this.enteredWeight = values.weight;
+          this.id = values.id;
       }
     },
   },
