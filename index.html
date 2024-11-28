@@ -52,37 +52,7 @@
     <div id="app">
       <promille-calculator></promille-calculator>
       <random-cocktail></random-cocktail>
-      <!--<rest-person-information></rest-person-information>-->
-    </div> 
-    <div id="upload">
-      <h2>Vis person</h2>
-      <label for="id">Id:</label>
-      <input type="number" id="id" v-model.number="id" required />
-      <button @click="showPersonById">Vis person</button>
-      Id:{{shownPerson.id}} Age:{{shownPerson.age}} Weight:{{shownPerson.weight}}
-
-      <h2>Indtast oplysninger</h2>
-
-      <label for="gender">Køn:</label>
-      <select id="gender" v-model="enteredGender">
-        <option value="male">Mand</option>
-        <option value="female">Kvinde</option>
-      </select>
-
-      <label for="weight">Vægt (kg):</label>
-      <input type="number" id="weight" v-model.number="enteredWeight" required />
-
-      <label for="age">Alder:</label>
-      <input type="number" id="age" v-model.number="enteredAge" required />
-
-      <button @click="addPerson">Gem mine oplysninger</button>
-
-      <p>{{creationMessage}}</p>
-      <p>{{addMessage}}</p>
-     
-      <ul id="results">
-        <li v-for="person in shownRecords"></li>
-    </ul>
+      <rest-person-information></rest-person-information>
     </div>   
 
     <script type="module" src="app.js"></script>
