@@ -1,4 +1,4 @@
-const baseUrl = "https://promillepartnerbackendtest.azurewebsites.net/api/person";
+const baseUrl = "https://promillepartnerbackend.azurewebsites.net/api/person";
 
 export default {
   template: `
