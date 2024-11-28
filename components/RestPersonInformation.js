@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const baseUrl = "https://promillepartnerbackendtest.azurewebsites.net/api/person";
 
 export default {
