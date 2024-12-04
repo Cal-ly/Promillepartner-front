@@ -46,7 +46,7 @@ export default {
                 data-bs-toggle="modal"
                   data-bs-target="#drinksModal"
             />
-                <button class="btn btn-primary save-button" @click="calculate" >Gem
+                <button class="btn btn-primary save-button" @click="saveSettings" >Gem
                 </button>
                 <button class="btn btn-primary save-button" @click="createDrinkPlan" >Druk
                 </button>
@@ -97,16 +97,9 @@ export default {
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-danger"
-              @click="saveDrinks"
-              data-bs-dismiss="modal"
-            >
-              ✕ Close
-            </button>
-            <button
-              type="button"
               class="btn btn-success"
               @click="saveDrinks"
+              data-bs-dismiss="modal"
             >
               ✓ Save
             </button>
@@ -141,12 +134,15 @@ export default {
             <tr v-for="drink in drukplan" :key="drink.drink.name">
                 <td>{{ drink.pauseTime }}</td>
                 <td>{{ drink.drink.name }}</td>
-                <td>{{ drink.drink.volume }} ml</td>
+                <td>{{ drink.drink.volume }} l</td>
             </tr>
         </tbody>
     </table>
+    <p v-if="totalAlcoholMissing > 0" class="fw-bold">
+        Du mangler at drikke {{totalAlcoholMissing}} gram alkohol.
+    </p>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-success" @click="startSession">Start session</button>
+        <button class="btn btn-success" @click="sendToPi">Send til Pi</button>
     </div>
 </div>
     `,
@@ -173,12 +169,12 @@ export default {
         weight: 70,
 
         drukplan: [], //drukplan fra distributeAlcohol
+        totalAlcoholMissing: 0, // Track how much alcohol is missing from the plan
       };
     },
     methods: {
         calculate() {
-            this.saveDrinks();
-            console.log("virker calc")
+            console.log("Start på calc")
             const alcoholDistributionFactor = this.personData.gender === "male" ? 0.7 : 0.6; // Mand: 0.7, Kvinde: 0.6
             const standardDrinkAlcohol = 12; // Alkohol i gram per genstand
             const nedbrydningsHastighed = 0.15;
@@ -191,12 +187,19 @@ export default {
             this.standardDrinksPerHour = Math.max((requiredAlcohol / (standardDrinkAlcohol * this.hours).toFixed(2)));
             
           },
+          async saveSettings() {
+            console.log("Saving settings");
+            await this.getPersonByID();
+            this.saveDrinks();
+            console.log("Settings saved");
+            this.calculate();
+          },
 
         async getPersonByID() {
             try {
               const response = await axios.get(`https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`);
               this.personData = response.data
-              console.log(this.personData)
+              console.log("Person data:", this.personData);
               return this.personData; // Return the fetched data
             } catch (ex) {
               alert(ex.message);
@@ -218,78 +221,6 @@ export default {
             // Add logic to handle saving the selected drinks
           },
 
-  //     DistributeAlcohol() {
-  //     // Retrieve drinks from the database
-  //     let actualDrinks = this.drinks.filter(d => this.saveDrinks.includes(d.name));
-  
-  //     console.log("Drinks from db: ", actualDrinks);
-  
-  //     if (actualDrinks.length === 0 || this.hours <= 0) {
-  //         console.error("No drinks to distribute or invalid duration.");
-  //         return;
-  //     }
-  
-  //     const densityOfAlcohol = 7.89;
-  //     const drinkIntervals = []; // Time intervals for each drink in minutes
-  
-  //     // Calculate drinking intervals for each selected drink
-  //     for (let drink of actualDrinks) {
-  //         const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.AlcoholInTotalGrams) * this.hours * 60;
-  //         drinkIntervals.push(interval);
-  //     }
-  
-  //     let positionInActualDrinks = 0;
-  //     this.drukplan = [];
-  //     let restTime = this.hours * 60;
-  //     let spentTime = 0;
-  
-  //     while (restTime > 0) {
-  //         const currentDrink = actualDrinks[positionInActualDrinks];
-  //         const interval = drinkIntervals[positionInActualDrinks];
-  
-  //         if (restTime < interval) break; // Stop if remaining time is less than the current interval
-  
-  //         // Calculate next pause time
-  //         var d = new Date();
-  //         //d.setHours(1, spentTime, 0, 0); // Start at midnight and add spent time
-  //         d.setUTCHours(0,spentTime,0,0)
-
-  //         //if (d.getHours() == 23){
-  //         //  console.log("It Worked! The time has been changed")
-  //         //  d.setHours(10,spentTime,0,0)
-  //         //}
-
-  //         // Format time as HH:MM:SS
-  //         const formattedTime = d.toISOString().substr(11, 8);
-
-  //         restTime -= interval;
-  //         spentTime += interval;
-  
-  //         this.drukplan.push({
-  //             drink: currentDrink,
-  //             pauseTilNæsteDrink: formattedTime
-  //         });
-  
-  //         // Move to the next drink
-  //         positionInActualDrinks = (positionInActualDrinks + 1) % actualDrinks.length;
-  //     }
-  
-  //     console.log("Drinking Plan:", this.drukplan);
-  // },
-   // generates a drink plan with the marked items that is to be included in the plan
-  //  generateDrinkPlan() {
-  //   const selectedDrinks = this.retrievedDrinks.filter(drink =>
-  //     this.selectedDrinks.includes(drink.name)
-  //   );
-
-  //   if (!selectedDrinks.length || this.hours <= 0) {
-  //     console.error("No drinks selected or invalid duration.");
-  //     return;
-  //   }
-
-  //   this.createDrinkPlan(selectedDrinks);
-  // },
-  // creates a drink plan with time, items etc based on argument of drinks it is to be created with.
   createDrinkPlan() {
     console.log("drinks for Drinkplan:", this.savedDrinks);
     const densityOfAlcohol = 7.89; // grams/ml alcohol density
@@ -301,10 +232,13 @@ export default {
     let remainingTime = this.hours * 60;
     let spentTime = 0;
     let drinkIndex = 0;
+    let totalAlcoholScheduled = 0; // Track total alcohol scheduled on the plan
 
     while (remainingTime > 0) {
       const currentDrink = this.savedDrinks[drinkIndex];
       const interval = drinkIntervals[drinkIndex];
+      // calculate alcohol in grams for the current drink(needed for calculating alcoholscheduled)
+      const alcoholInGrams = currentDrink.volume * currentDrink.alcoholPercentOfVolume * densityOfAlcohol;
 
       if (remainingTime < interval) break;
 
@@ -317,15 +251,22 @@ export default {
 
       remainingTime -= interval;
       spentTime += interval;
+      totalAlcoholScheduled += alcoholInGrams; // Accumulate the alcohol in grams
       drinkIndex = (drinkIndex + 1) % this.savedDrinks.length;
       console.log("Drukplan:", this.drukplan);
     }
+     // Calculate how much alcohol is missing
+     this.totalAlcoholMissing =  Math.max(this.AlcoholInTotalGrams - totalAlcoholScheduled).toFixed(2);
+      console.log("Total alcohol missing:", this.totalAlcoholMissing);
   },
   formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const mins = Math.floor(minutes % 60);
     return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
   },
+  sendToPi() {
+    // Add logic to send the drink plan to the Pi
+  }
 },
     mounted() {
       this.getDrinks(); //Fetches drinks from the API to the modal when the component is mounted
