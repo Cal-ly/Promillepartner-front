@@ -214,66 +214,113 @@ export default {
             // Add logic to handle saving the selected drinks
           },
 
-      DistributeAlcohol() {
-      // Retrieve drinks from the database
-      let actualDrinks = this.drinks.filter(d => this.saveDrinks.includes(d.name));
+  //     DistributeAlcohol() {
+  //     // Retrieve drinks from the database
+  //     let actualDrinks = this.drinks.filter(d => this.saveDrinks.includes(d.name));
   
-      console.log("Drinks from db: ", actualDrinks);
+  //     console.log("Drinks from db: ", actualDrinks);
   
-      if (actualDrinks.length === 0 || this.hours <= 0) {
-          console.error("No drinks to distribute or invalid duration.");
-          return;
-      }
+  //     if (actualDrinks.length === 0 || this.hours <= 0) {
+  //         console.error("No drinks to distribute or invalid duration.");
+  //         return;
+  //     }
   
-      const densityOfAlcohol = 7.89;
-      const drinkIntervals = []; // Time intervals for each drink in minutes
+  //     const densityOfAlcohol = 7.89;
+  //     const drinkIntervals = []; // Time intervals for each drink in minutes
   
-      // Calculate drinking intervals for each selected drink
-      for (let drink of actualDrinks) {
-          const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.standardDrinksInTotal) * this.hours * 60;
-          drinkIntervals.push(interval);
-      }
+  //     // Calculate drinking intervals for each selected drink
+  //     for (let drink of actualDrinks) {
+  //         const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.standardDrinksInTotal) * this.hours * 60;
+  //         drinkIntervals.push(interval);
+  //     }
   
-      let positionInActualDrinks = 0;
-      this.drukplan = [];
-      let restTime = this.hours * 60;
-      let spentTime = 0;
+  //     let positionInActualDrinks = 0;
+  //     this.drukplan = [];
+  //     let restTime = this.hours * 60;
+  //     let spentTime = 0;
   
-      while (restTime > 0) {
-          const currentDrink = actualDrinks[positionInActualDrinks];
-          const interval = drinkIntervals[positionInActualDrinks];
+  //     while (restTime > 0) {
+  //         const currentDrink = actualDrinks[positionInActualDrinks];
+  //         const interval = drinkIntervals[positionInActualDrinks];
   
-          if (restTime < interval) break; // Stop if remaining time is less than the current interval
+  //         if (restTime < interval) break; // Stop if remaining time is less than the current interval
   
-          // Calculate next pause time
-          var d = new Date();
-          //d.setHours(1, spentTime, 0, 0); // Start at midnight and add spent time
-          d.setUTCHours(0,spentTime,0,0)
+  //         // Calculate next pause time
+  //         var d = new Date();
+  //         //d.setHours(1, spentTime, 0, 0); // Start at midnight and add spent time
+  //         d.setUTCHours(0,spentTime,0,0)
 
-          //if (d.getHours() == 23){
-          //  console.log("It Worked! The time has been changed")
-          //  d.setHours(10,spentTime,0,0)
-          //}
+  //         //if (d.getHours() == 23){
+  //         //  console.log("It Worked! The time has been changed")
+  //         //  d.setHours(10,spentTime,0,0)
+  //         //}
 
-          // Format time as HH:MM:SS
-          const formattedTime = d.toISOString().substr(11, 8);
+  //         // Format time as HH:MM:SS
+  //         const formattedTime = d.toISOString().substr(11, 8);
 
-          restTime -= interval;
-          spentTime += interval;
+  //         restTime -= interval;
+  //         spentTime += interval;
   
-          this.drukplan.push({
-              drink: currentDrink,
-              pauseTilNæsteDrink: formattedTime
-          });
+  //         this.drukplan.push({
+  //             drink: currentDrink,
+  //             pauseTilNæsteDrink: formattedTime
+  //         });
   
-          // Move to the next drink
-          positionInActualDrinks = (positionInActualDrinks + 1) % actualDrinks.length;
-      }
+  //         // Move to the next drink
+  //         positionInActualDrinks = (positionInActualDrinks + 1) % actualDrinks.length;
+  //     }
   
-      console.log("Drinking Plan:", this.drukplan);
+  //     console.log("Drinking Plan:", this.drukplan);
+  // },
+   // generates a drink plan with the marked items that is to be included in the plan
+   generateDrinkPlan() {
+    const selectedDrinks = this.retrievedDrinks.filter(drink =>
+      this.selectedDrinks.includes(drink.name)
+    );
+
+    if (!selectedDrinks.length || this.hours <= 0) {
+      console.error("No drinks selected or invalid duration.");
+      return;
+    }
+
+    this.createDrinkPlan(selectedDrinks);
   },
-            
-    },
+  // creates a drink plan with time, items etc based on argument of drinks it is to be created with.
+  createDrinkPlan(selectedDrinks) {
+    const densityOfAlcohol = 7.89; // grams/ml alcohol density
+    const drinkIntervals = selectedDrinks.map(drink =>
+      ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.totalAlcohol) *
+      this.hours * 60);
+
+    this.drukplan = [];
+    let remainingTime = this.hours * 60;
+    let spentTime = 0;
+    let drinkIndex = 0;
+
+    while (remainingTime > 0) {
+      const currentDrink = selectedDrinks[drinkIndex];
+      const interval = drinkIntervals[drinkIndex];
+
+      if (remainingTime < interval) break;
+
+      const formattedTime = this.formatTime(spentTime);
+
+      this.drukplan.push({
+        drink: currentDrink,
+        pauseTime: formattedTime,
+      });
+
+      remainingTime -= interval;
+      spentTime += interval;
+      drinkIndex = (drinkIndex + 1) % selectedDrinks.length;
+    }
+  },
+  formatTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.floor(minutes % 60);
+    return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+  },
+},
     mounted() {
       this.getDrinks(); //Fetches drinks from the API to the modal when the component is mounted
     }
