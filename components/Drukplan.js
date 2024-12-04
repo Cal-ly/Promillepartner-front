@@ -48,6 +48,9 @@ export default {
             />
                 <button class="btn btn-primary save-button" @click="calculate" >Gem
                 </button>
+                <button class="btn btn-primary save-button" @click="createDrinkPlan" >Druk
+                </button>
+                
             </div>
         </div>
 
@@ -116,7 +119,7 @@ export default {
         <div class="container mt-4">
             <div class="container mt-4 text-center">
                 <p class="fw-bold">
-                    Du skal drikke {{standardDrinksPerHour}} genstande i timen, som svarer til {{standardDrinksInTotal}} genstande i alt over {{hours}} timer!
+                    Du skal drikke {{standardDrinksPerHour}} genstande i timen, som svarer til {{AlcoholInTotalGrams}} gram alkohol i alt.
                 </p>
                 <p class="fw-bold">
                     Din promille vil være {{targetPromille}} om {{hours}} timer!
@@ -136,7 +139,7 @@ export default {
         </thead>
         <tbody>
             <tr v-for="drink in drukplan" :key="drink.drink.name">
-                <td>{{ drink.pauseTilNæsteDrink }}</td>
+                <td>{{ drink.pauseTime }}</td>
                 <td>{{ drink.drink.name }}</td>
                 <td>{{ drink.drink.volume }} ml</td>
             </tr>
@@ -149,14 +152,14 @@ export default {
     `,
     data() {
       return {
-        searchPersonID: 0,
+        searchPersonID: 1,
         startPromille: 0.0,
         targetPromille: 0.5,
-        hours: 1,
+        hours: 6,
 
         drinks: [], //Holds drinks from database, used in the modal
 
-        standardDrinksInTotal: 0,
+        AlcoholInTotalGrams: 0,
         standardDrinksPerHour: 0, 
         
         selectedDrinks: [], //selected drinks from the modal
@@ -174,19 +177,18 @@ export default {
     },
     methods: {
         calculate() {
-            this.saveDrinks = this.selectedDrinks;
-            console.log("virker")
-            const alcoholDistributionFactor = this.gender === "male" ? 0.7 : 0.6; // Mand: 0.7, Kvinde: 0.6
+            this.saveDrinks();
+            console.log("virker calc")
+            const alcoholDistributionFactor = this.personData.gender === "male" ? 0.7 : 0.6; // Mand: 0.7, Kvinde: 0.6
             const standardDrinkAlcohol = 12; // Alkohol i gram per genstand
             const nedbrydningsHastighed = 0.15;
             // console.log(this.selectedDrinks)
             const requiredAlcohol =
-              this.targetPromille * this.weight * alcoholDistributionFactor +
-              nedbrydningsHastighed * this.weight * this.hours;
+              this.targetPromille * this.personData.weight * alcoholDistributionFactor +
+              nedbrydningsHastighed * this.personData.weight * this.hours;
             // this.showAllDrinks();
-            this.standardDrinksInTotal = requiredAlcohol;
-            this.standardDrinksPerHour = requiredAlcohol / (standardDrinkAlcohol * this.hours);
-            return standardDrinksPerHour, this.standardDrinksInTotal;
+            this.AlcoholInTotalGrams = Math.max(requiredAlcohol.toFixed(2));
+            this.standardDrinksPerHour = Math.max((requiredAlcohol / (standardDrinkAlcohol * this.hours).toFixed(2)));
             
           },
 
@@ -211,6 +213,8 @@ export default {
           },
         saveDrinks() {
             console.log("Selected drinks:", this.selectedDrinks);
+            this.savedDrinks = this.selectedDrinks;
+            console.log("Saved drinks(fr this time):", this.savedDrinks);
             // Add logic to handle saving the selected drinks
           },
 
@@ -230,7 +234,7 @@ export default {
   
   //     // Calculate drinking intervals for each selected drink
   //     for (let drink of actualDrinks) {
-  //         const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.standardDrinksInTotal) * this.hours * 60;
+  //         const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.AlcoholInTotalGrams) * this.hours * 60;
   //         drinkIntervals.push(interval);
   //     }
   
@@ -273,23 +277,24 @@ export default {
   //     console.log("Drinking Plan:", this.drukplan);
   // },
    // generates a drink plan with the marked items that is to be included in the plan
-   generateDrinkPlan() {
-    const selectedDrinks = this.retrievedDrinks.filter(drink =>
-      this.selectedDrinks.includes(drink.name)
-    );
+  //  generateDrinkPlan() {
+  //   const selectedDrinks = this.retrievedDrinks.filter(drink =>
+  //     this.selectedDrinks.includes(drink.name)
+  //   );
 
-    if (!selectedDrinks.length || this.hours <= 0) {
-      console.error("No drinks selected or invalid duration.");
-      return;
-    }
+  //   if (!selectedDrinks.length || this.hours <= 0) {
+  //     console.error("No drinks selected or invalid duration.");
+  //     return;
+  //   }
 
-    this.createDrinkPlan(selectedDrinks);
-  },
+  //   this.createDrinkPlan(selectedDrinks);
+  // },
   // creates a drink plan with time, items etc based on argument of drinks it is to be created with.
-  createDrinkPlan(selectedDrinks) {
+  createDrinkPlan() {
+    console.log("drinks for Drinkplan:", this.savedDrinks);
     const densityOfAlcohol = 7.89; // grams/ml alcohol density
-    const drinkIntervals = selectedDrinks.map(drink =>
-      ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.totalAlcohol) *
+    const drinkIntervals = this.savedDrinks.map(drink =>
+      ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.AlcoholInTotalGrams) *
       this.hours * 60);
 
     this.drukplan = [];
@@ -298,7 +303,7 @@ export default {
     let drinkIndex = 0;
 
     while (remainingTime > 0) {
-      const currentDrink = selectedDrinks[drinkIndex];
+      const currentDrink = this.savedDrinks[drinkIndex];
       const interval = drinkIntervals[drinkIndex];
 
       if (remainingTime < interval) break;
@@ -312,7 +317,8 @@ export default {
 
       remainingTime -= interval;
       spentTime += interval;
-      drinkIndex = (drinkIndex + 1) % selectedDrinks.length;
+      drinkIndex = (drinkIndex + 1) % this.savedDrinks.length;
+      console.log("Drukplan:", this.drukplan);
     }
   },
   formatTime(minutes) {
