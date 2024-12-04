@@ -73,6 +73,7 @@ export default {
       selectedDrinks: [],
       savedDrinks: [],
       forventedAlkohol: 0,
+      drukplan: [],
     };
   },
   methods: {
@@ -102,32 +103,66 @@ export default {
       this.selectedDrinks //selected drinks from select element
       this.selectedDrinks.forEach(d => this.savedDrinks.push({name: d, id:this.savedDrinks.length }))
       this.forventedAlkohol = 0
-
-      //simpel version, advancerede skal være man kan kun tilføje drinks indefor totalalcohol 
-      //+ hvis den overstiger ændre tiden også i drukplanen for at udligne
-      if (this.totalAlcohol > this.forventedAlkohol)
-        { 
-          for (let i = 0; i < this.savedDrinks.length; i++) 
-          {
-            let temp = this.retrievedDrinks.find(d => d.name == this.savedDrinks[i]);
-            console.log(temp)
-            this.forventedAlkohol += temp.volume * temp.alcoholPercentOfVolume * 7,89
-          } 
-        }
-
-        this.forventedAlkohol = this.forventedAlkohol.toFixed(2)
-
-        
-      // = this.savedDrinks.forEach(sD => this.retrievedDrinks.find(rD => rD.name == sD).volume)
+      this.DistributeAlcohol()
     },
-    removeFromDrinkList(index) {
-      this.savedDrinks.indexOf(index)
-      //this.savedDrinks = delete this.savedDrinks[index]
-      const index2 = this.savedDrinks.indexOf(sD => sD.id == index);
-      if (index2 > -1) { // only splice array when item is found
-        this.savedDrinks = this.savedDrinks.splice(index2 -1, 1); // 2nd parameter means remove one item only
+    DistributeAlcohol() {
+      // Retrieve selected drinks
+      let actualDrinks = this.retrievedDrinks.filter(d => this.selectedDrinks.includes(d.name));
+  
+      console.log("Selected drinks:", actualDrinks);
+  
+      if (actualDrinks.length === 0 || this.hours <= 0) {
+          console.error("No drinks to distribute or invalid duration.");
+          return;
       }
-    },
+  
+      const densityOfAlcohol = 7.89;
+      const drinkIntervals = []; // Time intervals for each drink in minutes
+  
+      // Calculate drinking intervals for each selected drink
+      for (let drink of actualDrinks) {
+          const interval = ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.totalAlcohol) * this.hours * 60;
+          drinkIntervals.push(interval);
+      }
+  
+      let positionInActualDrinks = 0;
+      this.drukplan = [];
+      let restTime = this.hours * 60;
+      let spentTime = 0;
+  
+      while (restTime > 0) {
+          const currentDrink = actualDrinks[positionInActualDrinks];
+          const interval = drinkIntervals[positionInActualDrinks];
+  
+          if (restTime < interval) break; // Stop if remaining time is less than the current interval
+  
+          // Calculate next pause time
+          var d = new Date();
+          //d.setHours(1, spentTime, 0, 0); // Start at midnight and add spent time
+          d.setUTCHours(0,spentTime,0,0)
+
+          //if (d.getHours() == 23){
+          //  console.log("It Worked! The time has been changed")
+          //  d.setHours(10,spentTime,0,0)
+          //}
+
+          // Format time as HH:MM:SS
+          const formattedTime = d.toISOString().substr(11, 8);
+
+          restTime -= interval;
+          spentTime += interval;
+  
+          this.drukplan.push({
+              drink: currentDrink,
+              pauseTilNæsteDrink: formattedTime
+          });
+  
+          // Move to the next drink
+          positionInActualDrinks = (positionInActualDrinks + 1) % actualDrinks.length;
+      }
+  
+      console.log("Drinking Plan:", this.drukplan);
+  },
   },
   mounted() {
     this.showAllDrinks();

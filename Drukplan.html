@@ -1,0 +1,188 @@
+<!-- Anden version af drukplan siden -->
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drukplan</title>
+    <!-- Boostrap stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Default Stylesheet -->
+    <link rel="stylesheet" href="DrukplanStyle.css">
+    <!-- bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+<body>
+    <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><b>Promille Partner</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Drukplan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cocktail Idé Generator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tilføj Person</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Overskrift -->
+    <div class="container mt-4">
+        <h1>Din Drukplan</h1>
+        <p>Vælg dine personlige oplysning og få din helt egen personlige drukplan generet til dig!</p>
+    </div>
+
+ <!-- Custom Settings -->
+    <div class="container mt-4">
+        <div class="custom-settings">
+            <label id="getPersonalInformationInputLabel" for="getPersonalInformationInput">Hent personinformationer</label>
+            <input type="number" id="current-promille" class="form-control" value="0" placeholder="Indtast ID på gemte person">
+            <button class="btn btn-primary save-button">Hent oplysninger</button>       
+
+            <label for="person-select" class="form-label">Person:</label>
+            <select id="person-select" class="form-select">
+                <option value="1">ID 1</option>
+                <option value="2">ID 2</option>
+                <option value="3">ID 3</option>
+            </select>
+
+            <label for="current-promille" class="form-label mt-3">Nuværende promille:</label>
+            <input type="number" id="current-promille" class="form-control" value="0">
+
+            <label id="targetPromilleInputLabel" class="form-label mt-3" for="targetPromilleInput">Ønsket promille:</label>
+            <input
+            id="targetPromilleInput"
+            type="number"
+            v-model.number="targetPromille"
+            step="0.01"
+            required
+            value="0"
+            class="form-control"
+            />
+
+            <label id="hoursInputLabel" class="form-label mt-3" for="hoursInput">Længde af drukplan:</label>
+            <input id="hoursInput" type="number" class="form-control" id="hours" v-model.number="hours" required placeholder="I timer"/>
+
+            <label for="drinks-list" class="form-label mt-3">Liste af drinks:</label>
+            <input type="text" id="drinks-list" class="form-control" placeholder="Vælg dine drinks" readonly data-bs-toggle="modal" data-bs-target="#drinksModal">
+
+            <button class="btn btn-primary save-button">Gem</button>
+        </div>
+    </div>
+
+    <!-- Drinks Modal som popper op når man skal vælge en liste af drinks -->
+    <div class="modal fade" id="drinksModal" aria-labelledby="drinksModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="drinksModalLabel">Vælg dine drinks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Checklist of drinks -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="drink1">
+                        <label class="form-check-label" for="drink1">Drik 1</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="drink2">
+                        <label class="form-check-label" for="drink2">Drik 2</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="drink3">
+                        <label class="form-check-label" for="drink3">Drik 3</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="drink4">
+                        <label class="form-check-label" for="drink4">Drik 4</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="drink5">
+                        <label class="form-check-label" for="drink5">Drik 5</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        ✕ Close
+                    </button>
+                    <button type="button" class="btn btn-success">
+                        ✓ Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Summary Section -->
+<div class="container mt-4">
+    <div class="container mt-4 text-center">
+        <p class="fw-bold">
+            Du skal drikke <span id="drinks-per-hour">x</span> genstande i timen, som svarer til <span id="total-drinks">x</span> genstande i alt over <span id="total-time">y</span> timer!
+        </p>
+        <p class="fw-bold">
+            Din promille vil være <span id="target-promille">x</span> om <span id="hours">y</span> timer!
+    </div>
+    
+</div>
+
+<!-- Table Section -->
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tid</th>
+                <th>Drik</th>
+                <th>Mængde</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Mock data -->
+            <tr>
+                <td>00:00</td>
+                <td>Drik 1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>13:00</td>
+                <td>Drik 2</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>14:00</td>
+                <td>Drik 3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>15:00</td>
+                <td>Drik 4</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>16:00</td>
+                <td>Drik 5</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-success">Start session</button>
+    </div>
+</div>
+</body>
+
+</html>
