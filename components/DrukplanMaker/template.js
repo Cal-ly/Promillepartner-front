@@ -10,10 +10,23 @@ export default `
   <div class="container mt-4">
     <div class="custom-settings">
       <div>
-        <label id="getPersonalInformationInputLabel" for="getPersonalInformationInput">Hent personinformationer</label>
-        <input type="number" id="search-person-id" class="form-control" v-model="searchPersonID" placeholder="Indtast ID på gemte person">
-        <button class="btn btn-primary save-button" v-on:click="getPersonByID">Hent oplysninger</button>       
-      </div>
+  <label id="getPersonalInformationInputLabel" for="getPersonalInformationInput">
+    Id for dine personlige informationer:
+  </label>
+  <input
+    type="number"
+    id="search-person-id"
+    class="form-control"
+    v-model="searchPersonID"
+    placeholder="Indtast ID på gemte person"
+  />
+  <button
+    class="btn btn-primary save-button"
+    v-on:click="fetchPersonAndShowModal"
+  >
+    Vis person
+  </button>
+</div>
       <div>
         <label for="current-promille" class="form-label mt-3">Nuværende promille:</label>
         <input type="number" id="current-promille" v-model.number="startPromille" class="form-control" value="0">
@@ -28,12 +41,51 @@ export default `
       </div>
       <div>
         <label for="drinks" class="form-label mt-3">Vælg drinks fra listen:</label>
-        <input type="text" class="form-control mb-3" placeholder="Vis listen" readonly data-bs-toggle="modal" data-bs-target="#drinksModal"/>
-        <button class="btn btn-primary save-button" @click="saveSettings" >Gem</button>
-        <button class="btn btn-primary save-button" @click="createDrinkPlan" >Druk</button>
+        <input type="text" class="form-control mb-3" placeholder="Vis listen" data-bs-toggle="modal" data-bs-target="#drinksModal"/>
+        <button class="btn btn-primary save-button" @click="saveSettings" >Udregn promille</button>
+        <button class="btn btn-primary save-button" @click="createDrinkPlan" >Generer Drukplan</button>
       </div>
     </div>
   </div>
+  <!-- Person Info Modal -->
+<div
+  class="modal fade"
+  id="personInfoModal"
+  tabindex="-1"
+  aria-labelledby="personInfoModalLabel"
+  aria-hidden="true"
+  v-if="personData"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="personInfoModalLabel">
+          Id {{ personData.id }}'s Information
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Køn:</strong> {{ personData.man ? "Mand" : "Kvinde" }}</p>
+        <p><strong>Vægt:</strong> {{ personData.weight }} kg</p>
+        <p><strong>Alder:</strong> {{ personData.age }} år</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Luk
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Drinks Modal -->
   <div class="modal fade" id="drinksModal" tabindex="-1" aria-labelledby="drinksModalLabel">

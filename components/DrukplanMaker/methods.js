@@ -23,14 +23,36 @@ export default {
   
     async getPersonByID() {
       try {
-        const response = await axios.get(`https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`);
-        this.personData = response.data
+        const response = await axios.get(
+          `https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`
+        );
+        this.personData = response.data;
         console.log("Person data:", this.personData);
-        return this.personData; // Return the fetched data
       } catch (ex) {
         alert(ex.message);
       }
     },
+
+    async fetchPersonAndShowModal() {
+        try {
+          const response = await axios.get(
+            `https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`
+          );
+          this.personData = response.data;
+          console.log("Person data:", this.personData);
+          console.log("Gender value:", this.personData.man);
+      
+          // Show the modal only after successful data fetching
+          const modal = new bootstrap.Modal(
+            document.getElementById('personInfoModal')
+          );
+          modal.show();
+      
+         
+        } catch (ex) {
+          alert(ex.message);
+        }
+      },
   
     async getDrinks() {
       console.log("Fetching drinks");
