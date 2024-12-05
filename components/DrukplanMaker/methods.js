@@ -1,22 +1,32 @@
-export const methods = {
+export default {
     calculate() {
-      const alcoholDistributionFactor = this.gender === "male" ? 0.7 : 0.6;
-      const standardDrinkAlcohol = 12;
+      console.log("Start på calc")
+      const alcoholDistributionFactor = this.personData.gender === "male" ? 0.7 : 0.6; // Mand: 0.7, Kvinde: 0.6
+      const standardDrinkAlcohol = 12; // Alkohol i gram per genstand
       const nedbrydningsHastighed = 0.15;
+  
       const requiredAlcohol =
-        this.targetPromille * this.weight * alcoholDistributionFactor +
-        nedbrydningsHastighed * this.weight * this.hours;
-      this.standardDrinksInTotal = requiredAlcohol;
-      this.standardDrinksPerHour =
-        requiredAlcohol / (standardDrinkAlcohol * this.hours);
+        this.targetPromille * this.personData.weight * alcoholDistributionFactor +
+        nedbrydningsHastighed * this.personData.weight * this.hours;
+  
+      this.AlcoholInTotalGrams = Math.max(requiredAlcohol.toFixed(2));
+      this.standardDrinksPerHour = Math.max((requiredAlcohol / (standardDrinkAlcohol * this.hours).toFixed(2)));
+    },
+  
+    async saveSettings() {
+      console.log("Saving settings");
+      await this.getPersonByID();
+      this.saveDrinks();
+      console.log("Settings saved");
+      this.calculate();
     },
   
     async getPersonByID() {
       try {
-        const response = await axios.get(
-          `https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`
-        );
-        this.personData = response.data;
+        const response = await axios.get(`https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`);
+        this.personData = response.data
+        console.log("Person data:", this.personData);
+        return this.personData; // Return the fetched data
       } catch (ex) {
         alert(ex.message);
       }
@@ -24,9 +34,7 @@ export const methods = {
   
     async getDrinks() {
       try {
-        const response = await axios.get(
-          `https://promillepartnerbackend.azurewebsites.net/api/drink`
-        );
+        const response = await axios.get(`https://promillepartnerbackend.azurewebsites.net/api/drink`);
         this.drinks = response.data;
       } catch (error) {
         console.error("Error fetching drinks:", error);
@@ -34,6 +42,56 @@ export const methods = {
     },
   
     saveDrinks() {
+      console.log("Selected drinks:", this.selectedDrinks);
       this.savedDrinks = this.selectedDrinks;
+      console.log("Saved drinks(fr this time):", this.savedDrinks);
     },
-  };  
+  
+    createDrinkPlan() {
+      console.log("drinks for Drinkplan:", this.savedDrinks);
+      const densityOfAlcohol = 7.89; // grams/ml alcohol density
+      const drinkIntervals = this.savedDrinks.map(drink =>
+        ((drink.volume * drink.alcoholPercentOfVolume * densityOfAlcohol) / this.AlcoholInTotalGrams) *
+        this.hours * 60);
+  
+      this.drukplan = [];
+      let remainingTime = this.hours * 60;
+      let spentTime = 0;
+      let drinkIndex = 0;
+      let totalAlcoholScheduled = 0;
+  
+      while (remainingTime > 0) {
+        const currentDrink = this.savedDrinks[drinkIndex];
+        const interval = drinkIntervals[drinkIndex];
+        const alcoholInGrams = currentDrink.volume * currentDrink.alcoholPercentOfVolume * densityOfAlcohol;
+  
+        if (remainingTime < interval) break;
+  
+        const formattedTime = this.formatTime(spentTime);
+  
+        this.drukplan.push({
+          drink: currentDrink,
+          pauseTime: formattedTime,
+        });
+  
+        remainingTime -= interval;
+        spentTime += interval;
+        totalAlcoholScheduled += alcoholInGrams;
+  
+        drinkIndex = (drinkIndex + 1) % this.savedDrinks.length;
+      }
+  
+      this.totalAlcoholMissing = Math.max(this.AlcoholInTotalGrams - totalAlcoholScheduled, 0);
+    },
+  
+    formatTime(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return `${hours}:${mins}`;
+    },
+  
+    sendToPi() {
+      console.log("Sending to Pi with drukplan:", this.drukplan);
+    }
+  };
+  

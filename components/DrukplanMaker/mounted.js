@@ -1,4 +1,6 @@
-export const mounted = function () {
-    this.getDrinks();
+export default {
+    mounted() {
+      this.calculate();
+      this.getDrinks();
+    }
   };
-  
