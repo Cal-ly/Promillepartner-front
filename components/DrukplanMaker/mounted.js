@@ -1,6 +1,7 @@
 export default {
     mounted() {
-      this.calculate();
+      console.log("mounted")
+      // this.calculate();
       this.getDrinks();
     }
   };

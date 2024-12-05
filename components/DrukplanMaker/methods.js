@@ -1,6 +1,6 @@
 export default {
     calculate() {
-      console.log("Start på calc")
+      console.log("Start på calcc")
       const alcoholDistributionFactor = this.personData.gender === "male" ? 0.7 : 0.6; // Mand: 0.7, Kvinde: 0.6
       const standardDrinkAlcohol = 12; // Alkohol i gram per genstand
       const nedbrydningsHastighed = 0.15;
@@ -33,6 +33,7 @@ export default {
     },
   
     async getDrinks() {
+      console.log("Fetching drinks");
       try {
         const response = await axios.get(`https://promillepartnerbackend.azurewebsites.net/api/drink`);
         this.drinks = response.data;
