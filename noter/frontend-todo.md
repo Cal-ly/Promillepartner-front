@@ -4,11 +4,59 @@
 - [X] Mappestruktur
 - [X] Evt. kombinér .css filerne i en fil
 - [X] Refaktorering af components (DrukplanMaker og PromilleCalculator)
-- [ ] Refaktorering af html/unødig kode
+- [X] Refaktorering af html/unødig kode
+- [X] Fikse problem med modal, når man klikker "Vis person"
 
 ## Mandag 09.12
 - [ ] Fikse Dark-mode
 - [ ] 
 
 ## Notes
-- PromilleCalculator kunne slettes uden a
+- PromilleCalculator kunne slettes uden problemer
+- "Vis person" knappens problematik er var denne kode:
+```html
+<div
+  class="modal fade"
+  id="personInfoModal"
+  tabindex="-1"
+  aria-labelledby="personInfoModalLabel"
+  aria-hidden="true"
+  v-if="personData"
+>
+```
+og i data.js filen
+```javascript
+export default function () {
+    return {
+      searchPersonID: 1,
+      startPromille: 0.0,
+      targetPromille: 0.5,
+      hours: 6,
+    
+      drinks: [], // Holds drinks from database, used in the modal
+      AlcoholInTotalGrams: 0,
+      standardDrinksPerHour: 0, 
+    
+      selectedDrinks: [], // selected drinks from the modal
+      savedDrinks: [], 
+      forventedAlkohol: 0,
+    
+      // Retrieved data about person
+      personData: null,
+      gender: "male",
+      age: 18,
+      weight: 70,
+    
+      drukplan: [], // Drink plan from distributeAlcohol
+      totalAlcoholMissing: 0, // Track how much alcohol is missing from the plan
+    };
+  }  
+```
+
+I den nye kode bliver
+```js
+v-if="personData" --> v-show="personData"
+```
+```js
+personData: null, --> personData: {},
+```
