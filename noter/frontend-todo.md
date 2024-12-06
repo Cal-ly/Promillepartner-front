@@ -21,6 +21,7 @@
 - [ ] Ret navigationsbar
     -- [ ] Centrér navigationsbar
     -- [ ] Gør navigationsbar mindre smal
+- [ ] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Tirsdag 10.12
 - [ ] ... (Det der ikke blev nået om mandagen)
