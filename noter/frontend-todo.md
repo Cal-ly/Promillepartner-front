@@ -6,8 +6,8 @@
 - [X] Refaktorering af html/unødig kode
 - [X] Fikse problem med modal, når man klikker "Vis person"
 - [X] Navbar tekst aligned med brand navn
+- [X] Skabt et mere kontinuerligt design ved hjælp af GPT for nemheden. 
 - [X] Evt. kombinér .css filerne i en fil
-- [ ] 
 
 ## Mandag 09.12
 - [ ] Tilføj Darkmode (Reference: https://www.w3schools.com/howto/howto_js_toggle_dark_mode.asp)
