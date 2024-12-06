@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to load navbar
     async function loadNavbar() {
       try {
-        const response = await fetch('navbar.html');
+        const response = await fetch('  navbar/navbar.html');
         const navbarHTML = await response.text();
         
         // Find the navbar container or insert before first child of body
