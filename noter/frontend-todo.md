@@ -2,10 +2,11 @@
 
 ## Fredag 05.12 (evt. mandag 9.12)
 - [X] Mappestruktur
-- [X] Evt. kombinér .css filerne i en fil
 - [X] Refaktorering af components (DrukplanMaker og PromilleCalculator)
 - [X] Refaktorering af html/unødig kode
 - [X] Fikse problem med modal, når man klikker "Vis person"
+- [X] Navbar tekst aligned med brand navn
+- [X] Evt. kombinér .css filerne i en fil
 - [ ] 
 
 ## Mandag 09.12
@@ -13,6 +14,10 @@
     -- [ ] Slet de tidligere Darkmode filer
     -- [ ] Tilføj ny darkmode.js fil med ny kode
     -- [ ] Tilføj ny darkmode.css fil med ny kode
+- [ ] Tilføj Darkmode funktionaliten til alle sider // Alternativt KUN til navbar
+    -- [ ] index.html
+    -- [ ] person.html
+    -- [ ] randomcocktail.html
 
 ## Tirsdag 10.12
 
