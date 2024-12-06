@@ -23,5 +23,7 @@ export default function () {
       totalAlcoholMissing: 0, // Track how much alcohol is missing from the plan
 
       dataToSendToPi: [], // this is the data that gets sent to pi, based on drukplan, but filtered // currently a list of time differences between drinks
+      PiIdentifier: null, // this is the identifier used to connect to the right pi
+      showInput: false,
     };
   }  

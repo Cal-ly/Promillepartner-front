@@ -142,9 +142,35 @@ export default `
       <p v-if="totalAlcoholMissing > 0" class="fw-bold text-danger">
         Du mangler at drikke {{totalAlcoholMissing}} gram alkohol.
       </p>
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-success" @click="sendToPi">Send til Pi</button>
+      
+      <!-- Send To Pi Modal -->
+      <div class="modal fade" id="sendToPiModal" tabindex="-1" aria-labelledby="sendToPiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="sendToPiModalLabel">Input Pi Identifier</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for="PiIdentifier" class="form-label">Enter Pi Name</label>
+              <input
+                type="text"
+                id="PiIdentifier"
+                class="form-control"
+                v-model="PiIdentifier"
+                placeholder="MyAwesomePi123..."
+              />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" @click="sendToPi" data-bs-dismiss="modal">Submit</button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Button to trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send To Pi</button>
     </div>
   </div>
 `;

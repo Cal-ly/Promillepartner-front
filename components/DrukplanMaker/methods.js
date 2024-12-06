@@ -132,5 +132,18 @@ export default {
     });
 
     console.log(this.dataToSendToPie);
+
+
+
+    // send post request to the api
+    try{
+      const response = axios.post("")
+    } 
+    catch(error){
+      console.log("Error sending data" + error)
+    }
+
+
+
   },
 };
