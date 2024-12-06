@@ -10,6 +10,7 @@
 - [X] Evt. kombinér .css filerne i en fil
 
 ## Mandag 09.12
+- [ ] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 - [ ] Tilføj Darkmode (Reference: https://www.w3schools.com/howto/howto_js_toggle_dark_mode.asp)
     -- [ ] Slet de tidligere Darkmode filer
     -- [ ] Tilføj ny darkmode.js fil med ny kode
@@ -21,7 +22,6 @@
 - [ ] Ret navigationsbar
     -- [ ] Centrér navigationsbar
     -- [ ] Gør navigationsbar mindre smal
-- [ ] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Tirsdag 10.12
 - [ ] ... (Det der ikke blev nået om mandagen)

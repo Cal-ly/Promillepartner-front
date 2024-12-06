@@ -118,17 +118,19 @@ export default {
     return hours * 3600 + minutes * 60; // Convert hours and minutes to seconds
   },
   sendToPi() {
-
+    if (!this.dataToSendToPie) {
+      this.dataToSendToPie = [];
+    }
+    
     let lastTimeInSeconds = 0;
 
     this.drukplan.forEach(t => {
-      const currentTimeInSeconds = timeToSeconds(t.formattedTime);
+      const currentTimeInSeconds = this.timeToSeconds(t.pauseTime); // Use t.pauseTime instead of t.formattedTime
       const timeDifference = currentTimeInSeconds - lastTimeInSeconds;
       this.dataToSendToPie.push(timeDifference);
       lastTimeInSeconds = currentTimeInSeconds; // Update lastTimeInSeconds for the next iteration
-
     });
 
-    console.log(this.dataToSendToPie)
+    console.log(this.dataToSendToPie);
   },
 };
