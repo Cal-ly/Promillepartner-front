@@ -54,7 +54,7 @@ export default `
   tabindex="-1"
   aria-labelledby="personInfoModalLabel"
   aria-hidden="true"
-  v-if="personData"
+  v-show="personData"
 >
   <div class="modal-dialog">
     <div class="modal-content">

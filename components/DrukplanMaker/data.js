@@ -14,7 +14,7 @@ export default function () {
       forventedAlkohol: 0,
     
       // Retrieved data about person
-      personData: null,
+      personData: {},
       gender: "male",
       age: 18,
       weight: 70,
