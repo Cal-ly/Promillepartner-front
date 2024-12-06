@@ -8,9 +8,9 @@
 - [X] Navbar tekst aligned med brand navn
 - [X] Skabt et mere kontinuerligt design ved hjælp af GPT
 - [X] Evt. kombinér .css filerne i en fil
+- [X] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Mandag 09.12
-- [ ] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 - [ ] Tilføj Darkmode (Reference: https://www.w3schools.com/howto/howto_js_toggle_dark_mode.asp)
     -- [ ] Slet de tidligere Darkmode filer
     -- [ ] Tilføj ny darkmode.js fil med ny kode
@@ -27,10 +27,10 @@
 - [ ] ... (Det der ikke blev nået om mandagen)
 
 ## Onsdag 11.12
-- [ ] Evt. styling af siden
 
 ## Torsdag 12.12
-- [ ] Evt. fortsæt styling af siden
+
+## Fredag 13.12
 
 ## Notes 06.12
 - PromilleCalculator kunne slettes uden problemer. Promille Beregner siden er blevet slettet, da den ikke længere bruges.
