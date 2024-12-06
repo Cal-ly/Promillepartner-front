@@ -1,12 +1,12 @@
 # To-Do List (Alexander)
 
-## Fredag 05.12 (evt. mandag 9.12)
+## Fredag 06.12 (evt. mandag 9.12)
 - [X] Mappestruktur
 - [X] Refaktorering af components (DrukplanMaker og PromilleCalculator)
 - [X] Refaktorering af html/unødig kode
 - [X] Fikse problem med modal, når man klikker "Vis person"
 - [X] Navbar tekst aligned med brand navn
-- [X] Skabt et mere kontinuerligt design ved hjælp af GPT for nemheden. 
+- [X] Skabt et mere kontinuerligt design ved hjælp af GPT
 - [X] Evt. kombinér .css filerne i en fil
 
 ## Mandag 09.12
@@ -18,8 +18,13 @@
     -- [ ] index.html
     -- [ ] person.html
     -- [ ] randomcocktail.html
+- [ ] Ret navigationsbar
+    -- [ ] Centrér navigationsbar
+    -- [ ] Gør navigationsbar mindre smal
+- [ ] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Tirsdag 10.12
+- [ ] ... (Det der ikke blev nået om mandagen)
 
 ## Onsdag 11.12
 - [ ] Evt. styling af siden
@@ -27,7 +32,7 @@
 ## Torsdag 12.12
 - [ ] Evt. fortsæt styling af siden
 
-## Notes
+## Notes 06.12
 - PromilleCalculator kunne slettes uden problemer. Promille Beregner siden er blevet slettet, da den ikke længere bruges.
 - "Vis person" knappens problematik er var denne kode:
 ```html
