@@ -1,4 +1,4 @@
-# To-Do List
+# To-Do List (Alexander)
 
 ## Fredag 05.12 (evt. mandag 9.12)
 - [X] Mappestruktur
@@ -6,13 +6,24 @@
 - [X] Refaktorering af components (DrukplanMaker og PromilleCalculator)
 - [X] Refaktorering af html/unødig kode
 - [X] Fikse problem med modal, når man klikker "Vis person"
-
-## Mandag 09.12
-- [ ] Fikse Dark-mode
 - [ ] 
 
+## Mandag 09.12
+- [ ] Tilføj Darkmode (Reference: https://www.w3schools.com/howto/howto_js_toggle_dark_mode.asp)
+    -- [ ] Slet de tidligere Darkmode filer
+    -- [ ] Tilføj ny darkmode.js fil med ny kode
+    -- [ ] Tilføj ny darkmode.css fil med ny kode
+
+## Tirsdag 10.12
+
+## Onsdag 11.12
+- [ ] Evt. styling af siden
+
+## Torsdag 12.12
+- [ ] Evt. fortsæt styling af siden
+
 ## Notes
-- PromilleCalculator kunne slettes uden problemer
+- PromilleCalculator kunne slettes uden problemer. Promille Beregner siden er blevet slettet, da den ikke længere bruges.
 - "Vis person" knappens problematik er var denne kode:
 ```html
 <div
