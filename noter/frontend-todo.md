@@ -1,8 +1,8 @@
 # To-Do List
 
 ## Fredag 05.12 (evt. mandag 9.12)
-- [ ] Mappestruktur
-- [ ] Evt. kombinér .css filerne i en fil
+- [X] Mappestruktur
+- [X] Evt. kombinér .css filerne i en fil
 - [ ] Refaktorering af components (DrukplanMaker og PromilleCalculator)
 - [ ] Refaktorering af html/unødig kode
 
