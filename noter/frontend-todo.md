@@ -15,7 +15,7 @@
     -- [ ] Slet de tidligere Darkmode filer
     -- [ ] Tilføj ny darkmode.js fil med ny kode
     -- [ ] Tilføj ny darkmode.css fil med ny kode
-- [ ] Tilføj Darkmode funktionaliten til alle sider // Alternativt KUN til navbar
+- [ ] Tilføj Darkmode funktionaliten til alle sider
     -- [ ] index.html
     -- [ ] person.html
     -- [ ] randomcocktail.html
