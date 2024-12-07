@@ -1,4 +1,4 @@
-# To-Do List (Alexander)
+# To-Do List
 
 ## Fredag 06.12 (evt. mandag 9.12)
 - [X] Mappestruktur
@@ -19,18 +19,33 @@
     -- [ ] index.html
     -- [ ] person.html
     -- [ ] randomcocktail.html
-- [ ] Ret navigationsbar
-    -- [ ] Centrér navigationsbar
-    -- [ ] Gør navigationsbar mindre smal
 
 ## Tirsdag 10.12
-- [ ] ... (Det der ikke blev nået om mandagen)
+- [ ] Ret navigationsbar
+    -- [ ] Centrér navigationsbar
+    -- [ ] Gør navigationsbar smallere
+(
+  Lazy-load (https://chatgpt.com/share/6753f5d1-4538-800e-9d73-643eb9371e8b)
+  - [ ] Tilføj Lazy-load til komponenterne
+    -- [ ] Lazy-load på DrukplanMaker
+    -- [ ] Lazy-load på Person
+    -- [ ] Lazy-load på RandomCocktail
+)
 
 ## Onsdag 11.12
+- [ ] ... Det der ikke blev nået om tirsdagen 10.12
+- [ ] Skrive om design principper i rapporten
 
 ## Torsdag 12.12
 
 ## Fredag 13.12
+
+## Notes 09.12
+Hvis det stadigvæk er aktuelt med at lave siden om til en one-page, så kunne det være en idé at tilføje lazy-load til komponenterne - 
+På den måde bliver hjemmesiden ikke langsommere. Dog skal strukturen på siden nok ændres, ellers vil der altid være to af komponenterne,
+der altid vil blive "aktiveret".
+
+Det er selvfølgelig noget man kan snakke med PO om, hvis det er noget de virkelig gerne vil have.
 
 ## Notes 06.12
 - PromilleCalculator kunne slettes uden problemer. Promille Beregner siden er blevet slettet, da den ikke længere bruges.
