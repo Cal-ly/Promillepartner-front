@@ -169,6 +169,10 @@ export default `
         </div>
       </div>
 
+      <div>
+        <p v-if="responseMessage != null">{{ responseMessage }}</p>
+      </div>
+
       <!-- Button to trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send To Pi</button>
     </div>

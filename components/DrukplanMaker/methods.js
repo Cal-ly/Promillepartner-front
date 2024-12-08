@@ -90,8 +90,7 @@ export default {
 
       if (remainingTime < interval) break;
 
-      const formattedTime = this.formatTime(spentTime);
-
+      const formattedTime = this.formatTime(spentTime.toFixed(0));
 
       this.drukplan.push({
         drink: currentDrink,
@@ -105,7 +104,7 @@ export default {
       drinkIndex = (drinkIndex + 1) % this.savedDrinks.length;
     }
 
-    this.totalAlcoholMissing = Math.max(this.AlcoholInTotalGrams - totalAlcoholScheduled, 0);
+    this.totalAlcoholMissing = Math.max(this.AlcoholInTotalGrams - totalAlcoholScheduled, 0).toFixed(2);
   },
 
   formatTime(minutes) {
@@ -117,33 +116,83 @@ export default {
     const [hours, minutes] = time.split(':').map(Number);
     return hours * 3600 + minutes * 60; // Convert hours and minutes to seconds
   },
-  sendToPi() {
+  async sendToPi() {
+    try {
+      // Validate the data before sending
+      const data = this.convertDrinkPlanData();
+      if (!data || !data.DrinkPlan || data.DrinkPlan.length === 0) {
+        console.error("Invalid data, cannot send to API.");
+        this.responseMessage = "Sending Data Failed: No valid data to send.";
+        return;
+      }
+  
+      console.log("Sending data to API:", data);
+  
+      // Send the POST request with the payload in the body
+      const response = await axios.post(
+        `https://localhost:7175/api/PromillePartnerPi/send_to_pi`, // API endpoint
+        data, // Send the data as the request body
+        {
+          headers: {
+            "Content-Type": "application/json", // Ensure correct content type
+          },
+        }
+      );
+  
+      // Handle successful response
+      this.responseMessage = response.data;
+      console.log("API Response:", response.data);
+    } catch (error) {
+      // Enhanced error handling
+      const status = error.response?.status || "Unknown";
+      const message = error.message || "An unknown error occurred";
+      console.error(`Error sending data: Status ${status}, Message: ${message}`);
+      this.responseMessage = `Sending Data Failed: Status ${status}, Message: ${message}`;
+    } finally {
+      // Reset data to avoid duplication when calling method again
+      this.dataToSendToPie = [];
+    }
+  },
+  
+  convertDrinkPlanData() {
+    // Validate the drukplan array
+    if (!this.drukplan || this.drukplan.length === 0) {
+      console.error("Drukplan is empty!");
+      return null;
+    }
+  
+    if (!this.PiIdentifier) {
+      console.error("PiIdentifier is missing!");
+      return null;
+    }
+  
     if (!this.dataToSendToPie) {
       this.dataToSendToPie = [];
     }
-    
+  
     let lastTimeInSeconds = 0;
-
-    this.drukplan.forEach(t => {
-      const currentTimeInSeconds = this.timeToSeconds(t.pauseTime); // Use t.pauseTime instead of t.formattedTime
+  
+    // Calculate the time differences for the drink plan
+    this.drukplan.forEach((t) => {
+      const currentTimeInSeconds = this.timeToSeconds(t.pauseTime); // Ensure t.pauseTime is used
       const timeDifference = currentTimeInSeconds - lastTimeInSeconds;
-      this.dataToSendToPie.push(timeDifference);
+      if (timeDifference < 0) {
+        console.warn(`Skipping invalid time difference: ${timeDifference}`);
+        return;
+      }
+      this.dataToSendToPie.push({ TimeDifference: timeDifference }); // Update to create an object per entry
       lastTimeInSeconds = currentTimeInSeconds; // Update lastTimeInSeconds for the next iteration
     });
-
-    console.log(this.dataToSendToPie);
-
-
-
-    // send post request to the api
-    try{
-      const response = axios.post("")
-    } 
-    catch(error){
-      console.log("Error sending data" + error)
-    }
-
-
-
-  },
+  
+    // Construct the payload to match the API schema
+    const data = {
+      Identifier: this.PiIdentifier, // Matches the API's property
+      DrinkPlan: this.dataToSendToPie, // Should be a list of objects with TimeDifference
+    };
+  
+    console.log("Prepared data for API:", data);
+  
+    return data;
+  }
+  
 };
