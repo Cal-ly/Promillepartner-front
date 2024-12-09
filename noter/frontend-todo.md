@@ -11,7 +11,7 @@
 - [X] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Mandag 09.12
-- [ ] Tilføj Darkmode (Reference: https://www.w3schools.com/howto/howto_js_toggle_dark_mode.asp)
+- [ ] Tilføj Darkmode (Reference: https://dev.to/whitep4nth3r/the-best-lightdark-mode-theme-toggle-in-javascript-368f)
     -- [ ] Slet de tidligere Darkmode filer
     -- [ ] Tilføj ny darkmode.js fil med ny kode
     -- [ ] Tilføj ny darkmode.css fil med ny kode
