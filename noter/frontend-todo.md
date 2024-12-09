@@ -11,14 +11,14 @@
 - [X] Fix timeToSeconds metode i components\DrukplanMaker\template.js
 
 ## Mandag 09.12
-- [ ] Tilføj Darkmode (Reference: https://dev.to/whitep4nth3r/the-best-lightdark-mode-theme-toggle-in-javascript-368f)
-    -- [ ] Slet de tidligere Darkmode filer
-    -- [ ] Tilføj ny darkmode.js fil med ny kode
-    -- [ ] Tilføj ny darkmode.css fil med ny kode
-- [ ] Tilføj Darkmode funktionaliten til alle sider
-    -- [ ] index.html
-    -- [ ] person.html
-    -- [ ] randomcocktail.html
+- [X] Tilføj Darkmode (Reference: https://dev.to/whitep4nth3r/the-best-lightdark-mode-theme-toggle-in-javascript-368f)
+    -- [X] Slet de tidligere Darkmode filer
+    -- [X] Tilføj ny darkmode.js fil med ny kode
+    -- [X] Tilføj ny darkmode.css fil med ny kode
+- [X] Tilføj Darkmode funktionaliten til alle sider
+    -- [X] index.html
+    -- [X] person.html
+    -- [X] randomcocktail.html
 
 ## Tirsdag 10.12
 - [ ] Ret navigationsbar
