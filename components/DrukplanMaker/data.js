@@ -1,5 +1,6 @@
 export default function () {
     return {
+      errorMessage: null,
       searchPersonID: 1,
       startPromille: 0.0,
       targetPromille: 0.5,
@@ -21,6 +22,7 @@ export default function () {
     
       drukplan: [], // Drink plan from distributeAlcohol
       totalAlcoholMissing: 0, // Track how much alcohol is missing from the plan
+      totalAlcoholScheduled: 0, // Track how much alcohol is scheduled in the plan
 
       dataToSendToPi: [], // this is the data that gets sent to pi, based on drukplan, but filtered // currently a list of time differences between drinks
       PiIdentifier: null, // this is the identifier used to connect to the right pi

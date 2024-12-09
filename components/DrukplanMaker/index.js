@@ -12,5 +12,13 @@ export default {
   mounted() {
     // Call the mounted logic from the imported module
     mountedLogic.mounted.call(this);
+  },
+  computed: {
+    selectedDrinksPlaceholder() {
+      if (this.selectedDrinks.length === 0) {
+        return "Vis listen"; // Default placeholder text
+      }
+      return this.selectedDrinks.map(drink => drink.name).join(", "); // Selected drinks' names
+    }
   }
 };

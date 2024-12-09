@@ -1,16 +1,66 @@
 export const template = `
-  <div id="person" class="container my-4">
-    <h2 id="headerPersonInformation" class="mb-4 text-center">Vis person</h2>
-    <div class="mb-3">
-      <label id="idInputLabel" for="idInput" class="form-label">Id:</label>
-      <input type="number" id="idInput" v-model.number="id" class="form-control" placeholder="Indtast ID" required />
-    </div>
-    <div class="d-grid gap-2">
-      <button id="buttonShowPerson" @click="showPersonById" class="btn btn-primary">Vis person</button>
-    </div>
-    <p id="personInformation" class="mt-3 text-muted">
-      Id: {{ shownPerson.id }} | Alder: {{ shownPerson.age }} | Vægt: {{ shownPerson.weight }}
-    </p>
+
+<div>
+ <h2 id="headerPersonInformation" class="mb-4 text-center">Vis person</h2>
+ <div class="mb-3">
+          <label id="getPersonalInformationInputLabel" for="getPersonalInformationInput" class="form-label">
+            Id for dine personlige informationer:
+          </label>
+          <input
+            type="number"
+            id="search-person-id"
+            class="form-control"
+            v-model="searchPersonID"
+            placeholder="Indtast ID på gemte person"
+          />
+          <button
+            class="btn btn-primary mt-2"
+            v-on:click="fetchPersonAndShowModal"
+          >
+            Vis person
+          </button>
+        </div>
+</div>
+
+<div
+      class="modal fade"
+      id="personInfoModal"
+      tabindex="-1"
+      aria-labelledby="personInfoModalLabel"
+      aria-hidden="true"
+      v-show="personData"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="personInfoModalLabel">
+              Id {{ personData.id }}'s Information
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Køn:</strong> {{ personData.man ? "Mand" : "Kvinde" }}</p>
+            <p><strong>Vægt:</strong> {{ personData.weight }} kg</p>
+            <p><strong>Alder:</strong> {{ personData.age }} år</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Luk
+            </button>
+          </div>
+          </div>
+          </div>
+          </div>
+
 
     <h2 id="headerEnterInformation" class="mt-5 mb-4 text-center">Indtast oplysninger</h2>
     <div class="mb-3">

@@ -1,4 +1,13 @@
 export const data = () => ({
+  
+  errorMessage: null,
+  searchPersonID: 1,
+  personData: {},
+      gender: "male",
+      age: 18,
+      weight: 70,
+
+
     shownRecords: [],
     shownPerson: {},
     enteredGender: "male",
