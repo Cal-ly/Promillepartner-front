@@ -12,24 +12,24 @@
 
 ## Mandag 09.12
 - [X] Tilføj Darkmode (Reference: https://dev.to/whitep4nth3r/the-best-lightdark-mode-theme-toggle-in-javascript-368f)
-    -- [X] Slet de tidligere Darkmode filer
-    -- [X] Tilføj ny darkmode.js fil med ny kode
-    -- [X] Tilføj ny darkmode.css fil med ny kode
+- [X] Slet de tidligere Darkmode filer
+- [X] Tilføj ny darkmode.js fil med ny kode
+- [X] Tilføj ny darkmode.css fil med ny kode
 - [X] Tilføj Darkmode funktionaliten til alle sider
-    -- [X] index.html
-    -- [X] person.html
-    -- [X] randomcocktail.html
+- [X] index.html
+- [X] person.html
+- [X] randomcocktail.html
 
 ## Tirsdag 10.12
 - [ ] Ret navigationsbar
-    -- [ ] Centrér navigationsbar
-    -- [ ] Gør navigationsbar smallere
+- [ ] Centrér navigationsbar
+- [ ] Gør navigationsbar smallere
 (
   Lazy-load (https://chatgpt.com/share/6753f5d1-4538-800e-9d73-643eb9371e8b)
-  - [ ] Tilføj Lazy-load til komponenterne
-    -- [ ] Lazy-load på DrukplanMaker
-    -- [ ] Lazy-load på Person
-    -- [ ] Lazy-load på RandomCocktail
+- [ ] Tilføj Lazy-load til komponenterne
+- [ ] Lazy-load på DrukplanMaker
+- [ ] Lazy-load på Person
+- [ ] Lazy-load på RandomCocktail
 )
 
 ## Onsdag 11.12
