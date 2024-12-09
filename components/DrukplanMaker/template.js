@@ -41,10 +41,10 @@ export default `
         </div>
         <div class="mb-3">
           <label for="drinks" class="form-label">Vælg drinks fra listen:</label>
-          <input type="text" class="form-control mb-2" placeholder="Vis listen" data-bs-toggle="modal" data-bs-target="#drinksModal"/>
+          <input type="text" class="form-control mb-2" :placeholder="selectedDrinksPlaceholder" data-bs-toggle="modal" data-bs-target="#drinksModal"/>
+          <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
           <div class="d-flex gap-2">
-            <button class="btn btn-primary" @click="saveSettings">Udregn promille</button>
-            <button class="btn btn-secondary" @click="createDrinkPlan">Generer Drukplan</button>
+            <button class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default `
         </div>
       </div>
     </div>
-
+<div v-if="drukplan.length >0"> <!-- div around drukplan -->
     <!-- Summary Section -->
     <div class="container mt-4 text-center">
       <p class="fw-bold">
@@ -140,7 +140,7 @@ export default `
         </tbody>
       </table>
       <p v-if="totalAlcoholMissing > 0" class="fw-bold text-danger">
-        Du mangler at drikke {{totalAlcoholMissing}} gram alkohol.
+        I løbet af aftenen når du at indtage {{totalAlcoholScheduled}} gram alkohol. Du mangler at drikke {{totalAlcoholMissing}} gram alkohol for at opnå en promille på {{targetPromille}}.
       </p>
       
       <!-- Send To Pi Modal -->
@@ -176,5 +176,6 @@ export default `
       <!-- Button to trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send To Pi</button>
     </div>
+    </div> <!-- div around drukplan -->
   </div>
 `;

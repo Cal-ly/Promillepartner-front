@@ -14,11 +14,20 @@ export default {
   },
 
   async saveSettings() {
+    console.log("Validating settings");
+     // Check if drinks list is empty
+  if (this.selectedDrinks.length === 0) {
+    this.errorMessage = "Drinks list cannot be empty! Please select at least one drink.";
+    console.log(this.errorMessage);
+    return; // Stop the process
+  }
+    this.errorMessage = ""; // Clear the error message if no error
     console.log("Saving settings");
     await this.getPersonByID();
     this.saveDrinks();
     console.log("Settings saved");
     this.calculate();
+    this.createDrinkPlan(); // Create the drink plan after saving settings
   },
 
   async getPersonByID() {
@@ -78,10 +87,11 @@ export default {
       this.hours * 60);
 
     this.drukplan = [];
+    this.totalAlcoholScheduled = 0;
     let remainingTime = this.hours * 60;
     let spentTime = 0;
     let drinkIndex = 0;
-    let totalAlcoholScheduled = 0;
+    
 
     while (remainingTime > 0) {
       const currentDrink = this.savedDrinks[drinkIndex];
@@ -99,17 +109,18 @@ export default {
 
       remainingTime -= interval;
       spentTime += interval;
-      totalAlcoholScheduled += alcoholInGrams;
+      this.totalAlcoholScheduled += alcoholInGrams;
 
       drinkIndex = (drinkIndex + 1) % this.savedDrinks.length;
     }
 
-    this.totalAlcoholMissing = Math.max(this.AlcoholInTotalGrams - totalAlcoholScheduled, 0).toFixed(2);
+    this.totalAlcoholMissing = Math.max(this.AlcoholInTotalGrams - this.totalAlcoholScheduled, 0).toFixed(2);
+    this.totalAlcoholScheduled = this.totalAlcoholScheduled.toFixed(2);
   },
 
   formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
+    const mins = Math.floor(minutes % 60).toString().padStart(2, '0'); // Ensure two digits for minutes
     return `${hours}:${mins}`;
   },
   timeToSeconds(time) {
