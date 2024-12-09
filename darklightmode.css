@@ -1,0 +1,61 @@
+:root {
+    --grid-unit: 1rem;
+    --border-radius-base: 0.5rem;
+  }
+  
+  [data-theme="light"] {
+    --color-bg: #ffffff;
+    --color-fg: #000000;
+  }
+  
+  [data-theme="dark"] {
+    --color-bg: #161a1f;
+    --color-fg: #ffffff;
+  }
+  
+  /* example use of CSS custom properties */
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  .navbar {
+    background-color: #2f3640 !important;
+    color: white;
+  }
+
+  .navbar a {
+    color: white !important;
+  }
+
+.navbar-brand {
+    color: white !important;
+}
+
+li {
+    background-color: #2f3640;
+    margin: 5px 0;
+    padding: 5px;
+    border: 0px solid #ddd;
+    border-radius: 1px;
+}
+
+h1 {
+    color: white;
+}
+
+.modal-content {
+    background-color: #2f3640;
+    color: white;
+}
+
+th {
+    background-color: #242a31 !important;
+    color: white !important;
+}
+
+td {
+    background-color: #38414d !important;
+    color: white !important;
+}
+  
