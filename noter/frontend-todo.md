@@ -26,10 +26,10 @@
 - [ ] Gør navigationsbar smallere
 (
   Lazy-load (https://chatgpt.com/share/6753f5d1-4538-800e-9d73-643eb9371e8b)
-- [ ] Tilføj Lazy-load til komponenterne
-- [ ] Lazy-load på DrukplanMaker
-- [ ] Lazy-load på Person
-- [ ] Lazy-load på RandomCocktail
+  - [ ] Tilføj Lazy-load til komponenterne
+  - [ ] Lazy-load på DrukplanMaker
+  - [ ] Lazy-load på Person
+  - [ ] Lazy-load på RandomCocktail
 )
 
 ## Onsdag 11.12
