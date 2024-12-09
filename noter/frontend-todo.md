@@ -24,6 +24,7 @@
 - [ ] Ret navigationsbar
 - [ ] Centrér navigationsbar
 - [ ] Gør navigationsbar smallere
+
 (
   Lazy-load (https://chatgpt.com/share/6753f5d1-4538-800e-9d73-643eb9371e8b)
   - [ ] Tilføj Lazy-load til komponenterne
