@@ -1,8 +1,15 @@
+var sessionTimer; // Declare sessionTimer in the outer scope
+
 function startSession() {
     var sessionTime = 0;
     var timerElement = document.getElementById('currentSessionTime');
 
-    var sessionTimer = setInterval(function () {
+    // Clear any existing interval
+    if (sessionTimer) {
+        clearInterval(sessionTimer);
+    }
+
+    sessionTimer = setInterval(function () {
         sessionTime++;
 
         // Calculate hours, minutes, and seconds
