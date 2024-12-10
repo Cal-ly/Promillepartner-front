@@ -74,3 +74,9 @@ li {
     font-weight: bold;
     border-bottom: 2px solid #007bff;
 }
+
+#currentSessionTime {
+    float: right;
+    font-size: 30px;;
+    align-self: center;
+}
