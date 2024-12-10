@@ -141,7 +141,7 @@ export default {
   
       // Send the POST request with the payload in the body
       const response = await axios.post(
-        `https://promillepartnerbackend.azurewebsites.net/api/PromillePartnerPi/send_to_pi`, // API endpoint
+        `https://localhost:7175/api/PromillePartnerPi/send_to_pi`, // API endpoint
         data, // Send the data as the request body
         {
           headers: {
