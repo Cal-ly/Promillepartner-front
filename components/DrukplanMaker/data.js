@@ -18,7 +18,7 @@ export default function () {
       personData: {},
       gender: "male",
       age: 18,
-      weight: 70,
+      weight: 10,
     
       drukplan: [], // Drink plan from distributeAlcohol
       totalAlcoholMissing: 0, // Track how much alcohol is missing from the plan

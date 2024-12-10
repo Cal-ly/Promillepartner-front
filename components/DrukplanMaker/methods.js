@@ -17,17 +17,54 @@ export default {
     console.log("Validating settings");
      // Check if drinks list is empty
   if (this.selectedDrinks.length === 0) {
-    this.errorMessage = "Drinks list cannot be empty! Please select at least one drink.";
+    this.errorMessage = "Din drinkliste er tom. Vælg venligst nogle drinks.";
     console.log(this.errorMessage);
     return; // Stop the process
   }
+  if (this.targetPromille < 0) {
+    this.errorMessage = "Invalid ønsket promille. Din promille kan ikke være negativ.";
+    console.log(this.errorMessage);
+    return; // Stop the process
+  } 
+if (this.targetPromille > 4) {
+  this.errorMessage = "Din ønskede promille er for høj. Din promille kan ikke være over 4.";
+  console.log(this.errorMessage);
+  return; // Stop the process
+}
+
+if (this.hours < 0) {
+  this.errorMessage = "Invalid drukplan længde. Drukplan længde kan ikke være negativ.";
+  console.log(this.errorMessage);
+  return; // Stop the process
+}
+
+if (this.startPromille < 0) {
+  this.errorMessage = "Invalid start promille. Din promille kan ikke være negativ.";
+  console.log(this.errorMessage);
+  return; // Stop the process
+}
+if (this.startPromille > 4) {
+  this.errorMessage = "Din start promille er for høj. Din promille kan ikke være over 4.";
+  console.log(this.errorMessage);
+  return; // Stop the process
+}
+// if () {
+//   this.errorMessage = "Person data er ikke blevet hentet. Indtast venligst en gyldig person ID.";
+//   console.log(this.errorMessage);
+//   return; // Stop the process
+// }
+  
+
     this.errorMessage = ""; // Clear the error message if no error
     console.log("Saving settings");
     await this.getPersonByID();
-    this.saveDrinks();
-    console.log("Settings saved");
-    this.calculate();
-    this.createDrinkPlan(); // Create the drink plan after saving settings
+      this.saveDrinks();
+      console.log("Settings saved");
+      this.calculate();
+      this.createDrinkPlan(); // Create the drink plan after saving settings
+    
+      
+    
   },
 
   async getPersonByID() {
@@ -36,8 +73,11 @@ export default {
         `https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`
       );
       this.personData = response.data;
+      
+      
       console.log("Person data:", this.personData);
     } catch (ex) {
+
       alert(ex.message);
     }
   },

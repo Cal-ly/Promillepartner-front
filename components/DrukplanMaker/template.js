@@ -10,12 +10,12 @@ export default `
     <div class="container mt-4">
       <div class="custom-settings p-4 border rounded shadow">
         <div class="mb-3">
-          <label id="getPersonalInformationInputLabel" for="getPersonalInformationInput" class="form-label">
+          <label id="getPersonalInformationLabel" for="getPersonalInformationInput" class="form-label">
             Id for dine personlige informationer:
           </label>
           <input
             type="number"
-            id="search-person-id"
+            id="getPersonalInformationInput"
             class="form-control"
             v-model="searchPersonID"
             placeholder="Indtast ID på gemte person"
@@ -28,23 +28,23 @@ export default `
           </button>
         </div>
         <div class="mb-3">
-          <label for="current-promille" class="form-label">Nuværende promille:</label>
-          <input type="number" id="current-promille" v-model.number="startPromille" class="form-control" value="0">
+          <label id="currentPromilleLabel" for="currentPromilleInput" class="form-label">Nuværende promille:</label>
+          <input type="number" id="currentPromilleInput" v-model.number="startPromille" class="form-control" value="0">
         </div>
         <div class="mb-3">
-          <label id="targetPromilleInputLabel" class="form-label" for="targetPromilleInput">Ønsket promille:</label>
+          <label id="targetPromilleLabel" class="form-label" for="targetPromilleInput">Ønsket promille:</label>
           <input id="targetPromilleInput" type="number" v-model.number="targetPromille" step="0.01" required value="0" class="form-control" />
         </div>
         <div class="mb-3">
-          <label id="hoursInputLabel" class="form-label" for="hoursInput">Længde af drukplan:</label>
+          <label id="hoursLabel" class="form-label" for="hoursInput">Længde af drukplan:</label>
           <input id="hoursInput" type="number" class="form-control" v-model.number="hours" required placeholder="I timer"/>
         </div>
         <div class="mb-3">
-          <label for="drinks" class="form-label">Vælg drinks fra listen:</label>
-          <input type="text" class="form-control mb-2" :placeholder="selectedDrinksPlaceholder" data-bs-toggle="modal" data-bs-target="#drinksModal"/>
+          <label id="selectDrinksLabel" for="drinks" class="form-label">Vælg drinks fra listen:</label>
+          <input id="selectDrinksInput" type="text" class="form-control mb-2" :placeholder="selectedDrinksPlaceholder" data-bs-toggle="modal" data-bs-target="#drinksModal"/>
           <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
           <div class="d-flex gap-2">
-            <button class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
+            <button id="saveSettingsButton" class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default `
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="drinksModalLabel">Vælg dine drinks</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button id="closeDrinksModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="form-check" v-for="drink in drinks" :key="drink.id">
@@ -122,7 +122,7 @@ export default `
     </div>
 
     <!-- Table Section -->
-    <div class="container mt-4">
+    <div id="drukplanTable" class="container mt-4">
       <table class="table table-striped">
         <thead>
           <tr>
