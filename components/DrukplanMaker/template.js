@@ -105,7 +105,7 @@ export default `
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" @click="saveDrinks" data-bs-dismiss="modal">✓ Save</button>
+            <button type="button" class="btn btn-success" @click="saveDrinks" data-bs-dismiss="modal">✓ Gem</button>
           </div>
         </div>
       </div>
@@ -148,11 +148,11 @@ export default `
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="sendToPiModalLabel">Input Pi Identifier</h5>
+              <h5 class="modal-title" id="sendToPiModalLabel">Indtast navn på Pi</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <label for="PiIdentifier" class="form-label">Enter Pi Name</label>
+              <label for="PiIdentifier" class="form-label">Navn på Pi</label>
               <input
                 type="text"
                 id="PiIdentifier"
@@ -162,8 +162,8 @@ export default `
               />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" @click="sendToPi" data-bs-dismiss="modal">Submit</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+              <button type="button" class="btn btn-primary" @click="sendToPi" data-bs-dismiss="modal">Send</button>
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default `
       </div>
 
       <!-- Button to trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send To Pi</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send til Pi</button>
     </div>
     </div> <!-- div around drukplan -->
   </div>

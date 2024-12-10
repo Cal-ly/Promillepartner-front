@@ -1,0 +1,168 @@
+/* Dark Mode CSS */
+:root {
+  /* Light Theme Default Variables */
+  --color-bg: #f9f9f9;      /* Light background */
+  --color-fg: #333;         /* Light text color */
+  --navbar-bg: #ffffff;     /* Light navbar background */
+  --navbar-link-color: #333; /* Light navbar link color */
+  --navbar-link-hover: #007bff; /* Light navbar link hover color */
+  --list-bg: #FFFFFF;       /* Light list background */
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Variables */
+  --color-bg: #161a1f;      /* Dark background */
+  --color-fg: #ffffff;      /* Dark text color */
+  --navbar-bg: #2f3640;     /* Dark navbar background */
+  --navbar-link-color: #ffffff; /* Dark navbar link color */
+  --navbar-link-hover: #007bff; /* Dark navbar link hover color */
+  --list-bg: #2F3640;       /* Dark list background */
+}
+
+/* Global Theme Application */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Navbar Theming */
+.navbar {
+  background-color: var(--navbar-bg) !important;
+  transition: background-color 0.3s;
+}
+
+.navbar-brand {
+  color: var(--navbar-link-color) !important;
+}
+
+.navbar .nav-link {
+  color: var(--navbar-link-color) !important;
+  transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+  color: var(--navbar-link-hover) !important;
+}
+
+.navbar .nav-link.active {
+  color: var(--navbar-link-hover) !important;
+  border-bottom: 2px solid var(--navbar-link-hover);
+}
+
+/* Additional Elements Theming */
+h1, h2 {
+  color: var(--color-fg);
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  background-color: var(--list-bg);
+  color: var(--color-fg);
+  border-radius: 5px;
+}
+
+/* Ensure theme persistence */
+html[data-theme="dark"] body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* Modal Theming */
+.modal {
+  --modal-bg: var(--color-bg);
+  --modal-fg: var(--color-fg);
+}
+
+.modal-content {
+  background-color: var(--modal-bg);
+  color: var(--modal-fg);
+  border: none;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.modal-title {
+  color: var(--modal-fg);
+}
+
+.modal-header .btn-close {
+  filter: var(--data-theme="dark" ? invert(1) : none);
+}
+
+/* Ensure form elements in modals also respect theme */
+.modal .form-control,
+.modal .form-select {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  border-color: rgba(0,0,0,0.2);
+}
+
+.modal .form-control:focus,
+.modal .form-select:focus {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+/* Bootstrap Modal Scrollbar */
+.modal-body {
+  scrollbar-color: var(--color-fg) var(--color-bg);
+  scrollbar-width: thin;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: var(--color-fg);
+  border-radius: 4px;
+}
+
+/* Table Theming */
+table {
+  color: var(--color-fg);
+}
+
+th, td {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  border-color: rgba(0,0,0,0.1);
+}
+
+thead {
+  background-color: var(--list-bg);
+  color: var(--color-fg);
+}
+
+.table, .table-striped, .table-hover {
+  --bs-table-bg: var(--color-bg);
+  --bs-table-color: var(--color-fg);
+  --bs-table-border-color: rgba(0,0,0,0.1);
+  --bs-table-striped-bg: var(--list-bg);
+  --bs-table-hover-bg: rgba(0,0,0,0.075);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: var(--list-bg);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0,0,0,0.075);
+  color: var(--color-fg);
+}
