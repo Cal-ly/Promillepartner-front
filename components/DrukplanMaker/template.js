@@ -45,8 +45,12 @@ export default `
           <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
           <div class="d-flex gap-2">
             <button id="saveSettingsButton" class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
+<<<<<<< HEAD
             <button class="timer btn btn-success" id="startSessionButton" onclick="startSession()">Start Timer</button>
             <button onclick="updateCurrentTime()">Update Time</button>
+=======
+            <button class="timer btn btn-success" id="startSessionButton" onclick="startSession()">Start timer</button>
+>>>>>>> e5180a1b9254b8d7304b1dbd2b54fe40e5d34aac
             <div class="timer" id="currentSessionTime">00:00:00</div>
             <div class="timer" id="currentTime">00:00:00</div>
           </div>
@@ -146,6 +150,7 @@ export default `
       <p v-if="totalAlcoholMissing > 0" class="fw-bold text-danger">
         I løbet af aftenen når du at indtage {{totalAlcoholScheduled}} gram alkohol. Du mangler at drikke {{totalAlcoholMissing}} gram alkohol for at opnå en promille på {{targetPromille}}.
       </p>
+      <button @click="saveDrinkPlanToDatabase"> </button>
       
       <!-- Send To Pi Modal -->
       <div class="modal fade" id="sendToPiModal" tabindex="-1" aria-labelledby="sendToPiModalLabel" aria-hidden="true">
