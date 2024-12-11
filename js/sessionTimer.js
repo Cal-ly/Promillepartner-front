@@ -39,10 +39,3 @@ function startSession() {
         // }
     }, 1000);
 }
-
-    // Function to update current time display
-function updateCurrentTime() {
-    const now = new Date();
-    const milliseconds = now.getTime();
-    console.log(milliseconds);
-}

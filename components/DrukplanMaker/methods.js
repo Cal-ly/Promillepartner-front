@@ -222,7 +222,7 @@ if (this.startPromille > 4) {
         console.warn(`Skipping invalid time difference: ${timeDifference}`);
         return;
       }
-      this.dataToSendToPie.push({ timeDifference: timeDifference, drinkName: t.drink.name, id: iterator }); // Update to create an object per entry
+      this.dataToSendToPie.push({ timeDifference: timeDifference, drinkName: t.drink.name }); // Update to create an object per entry
       lastTimeInSeconds = currentTimeInSeconds; // Update lastTimeInSeconds for the next iteration
     });
   
@@ -230,12 +230,20 @@ if (this.startPromille > 4) {
     const data = {
       identifier: this.PiIdentifier, // Matches the API's property
       drinkPlanen: this.dataToSendToPie, // Should be a list of objects with TimeDifference
+      timeStamp: this.timeStart, // Update to call the function
     };
   
     console.log("Prepared data for API:", data);
   
     return data;
   },
+
+  // Function to update current time display
+updateCurrentTime() {
+  const now = new Date();
+  this.timeStart = now.getTime();
+  console.log(this.timeStart);
+},
   
   async saveDrinkPlanToDatabase() {
     const response = await axios.post(`https://localhost:7175/api/DrinkPlan`, data = this.DrinkPlan, {

@@ -28,5 +28,6 @@ export default function () {
       PiIdentifier: null, // this is the identifier used to connect to the right pi
       showInput: false,
       responseMessage: null,
+      timeStart: null,
     };
   }  
