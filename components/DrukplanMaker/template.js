@@ -45,7 +45,7 @@ export default `
           <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
           <div class="d-flex gap-2">
             <button id="saveSettingsButton" class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
-            <button class="timer btn btn-success" id="startSessionButton" onclick="startSession()">Start Timer</button>
+            <button class="timer btn btn-success" id="startSessionButton" onclick="startSession()">Start timer</button>
             <div class="timer" id="currentSessionTime">00:00:00</div>
           </div>
         </div>
