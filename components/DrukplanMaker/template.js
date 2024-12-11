@@ -144,6 +144,7 @@ export default `
       <p v-if="totalAlcoholMissing > 0" class="fw-bold text-danger">
         I løbet af aftenen når du at indtage {{totalAlcoholScheduled}} gram alkohol. Du mangler at drikke {{totalAlcoholMissing}} gram alkohol for at opnå en promille på {{targetPromille}}.
       </p>
+      <button @click="saveDrinkPlanToDatabase"> </button>
       
       <!-- Send To Pi Modal -->
       <div class="modal fade" id="sendToPiModal" tabindex="-1" aria-labelledby="sendToPiModalLabel" aria-hidden="true">

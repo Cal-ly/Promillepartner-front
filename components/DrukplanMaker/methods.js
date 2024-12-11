@@ -119,7 +119,7 @@ if (this.startPromille > 4) {
     console.log("Saved drinks(fr this time):", this.savedDrinks);
   },
 
-  createDrinkPlan() {
+  async createDrinkPlan() {
     console.log("drinks for Drinkplan:", this.savedDrinks);
     const densityOfAlcohol = 7.89; // grams/ml alcohol density
     const drinkIntervals = this.savedDrinks.map(drink =>
@@ -170,29 +170,18 @@ if (this.startPromille > 4) {
   async sendToPi() {
     try {
       // Validate the data before sending
-      const data = this.convertDrinkPlanData();
-      if (!data || !data.DrinkPlan || data.DrinkPlan.length === 0) {
-        console.error("Invalid data, cannot send to API.");
-        this.responseMessage = "Sending Data Failed: No valid data to send.";
-        return;
+      
+
+      const response2 = await axios.post(`https://promillepartnerbackend.azurewebsites.net/api/drinkplan`, this.convertDrinkPlanData(), {
+        headers: {
+          "Content-Type": "application/json", // Ensure correct content type
+        },
       }
-  
-      console.log("Sending data to API:", data);
-  
-      // Send the POST request with the payload in the body
-      const response = await axios.post(
-        `https://localhost:7175/api/PromillePartnerPi/send_to_pi`, // API endpoint
-        data, // Send the data as the request body
-        {
-          headers: {
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-        }
-      );
+    );
   
       // Handle successful response
-      this.responseMessage = response.data;
-      console.log("API Response:", response.data);
+      this.responseMessage = response2.data;
+      console.log("API Response:", response2.data);
     } catch (error) {
       // Enhanced error handling
       const status = error.response?.status || "Unknown";
@@ -224,26 +213,36 @@ if (this.startPromille > 4) {
     let lastTimeInSeconds = 0;
   
     // Calculate the time differences for the drink plan
+    let iterator = 0;
     this.drukplan.forEach((t) => {
+      iterator = 1 + iterator
       const currentTimeInSeconds = this.timeToSeconds(t.pauseTime); // Ensure t.pauseTime is used
       const timeDifference = currentTimeInSeconds - lastTimeInSeconds;
       if (timeDifference < 0) {
         console.warn(`Skipping invalid time difference: ${timeDifference}`);
         return;
       }
-      this.dataToSendToPie.push({ TimeDifference: timeDifference }); // Update to create an object per entry
+      this.dataToSendToPie.push({ timeDifference: timeDifference, drinkName: t.drink.name, id: iterator }); // Update to create an object per entry
       lastTimeInSeconds = currentTimeInSeconds; // Update lastTimeInSeconds for the next iteration
     });
   
     // Construct the payload to match the API schema
     const data = {
-      Identifier: this.PiIdentifier, // Matches the API's property
-      DrinkPlan: this.dataToSendToPie, // Should be a list of objects with TimeDifference
+      identifier: this.PiIdentifier, // Matches the API's property
+      drinkPlanen: this.dataToSendToPie, // Should be a list of objects with TimeDifference
     };
   
     console.log("Prepared data for API:", data);
   
     return data;
-  }
+  },
   
+  async saveDrinkPlanToDatabase() {
+    const response = await axios.post(`https://localhost:7175/api/DrinkPlan`, data = this.DrinkPlan, {
+        headers: {
+          "Content-Type": "application/json", // Ensure correct content type
+        },
+      }
+    );
+  }
 };
