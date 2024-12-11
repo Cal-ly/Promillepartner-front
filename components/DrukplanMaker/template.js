@@ -46,7 +46,9 @@ export default `
           <div class="d-flex gap-2">
             <button id="saveSettingsButton" class="btn btn-primary" @click="saveSettings">Udregn promille og generer drukplan</button>
             <button class="timer btn btn-success" id="startSessionButton" onclick="startSession()">Start Timer</button>
+            <button onclick="updateCurrentTime()">Update Time</button>
             <div class="timer" id="currentSessionTime">00:00:00</div>
+            <div class="timer" id="currentTime">00:00:00</div>
           </div>
         </div>
       </div>

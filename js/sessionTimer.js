@@ -1,24 +1,31 @@
-var sessionTimer; // Declare sessionTimer in the outer scope
-
 function startSession() {
-    var sessionTime = 0;
-    var timerElement = document.getElementById('currentSessionTime');
-
-    // Clear any existing interval
-    if (sessionTimer) {
-        clearInterval(sessionTimer);
+    // Clear any existing interval to prevent multiple timers
+    if (window.sessionTimer) {
+        clearInterval(window.sessionTimer);
     }
 
-    sessionTimer = setInterval(function () {
+    // Track current session start time
+    const currentTime = new Date();
+    const timerElement = document.getElementById('currentSessionTime');
+    // Log initial current time
+    console.log(currentTime);
+
+
+
+    // Initialize session time tracking
+    let sessionTime = 0;
+
+    // Start session timer
+    window.sessionTimer = setInterval(function () {
         sessionTime++;
 
         // Calculate hours, minutes, and seconds
-        var hours = Math.floor(sessionTime / 3600);
-        var minutes = Math.floor((sessionTime % 3600) / 60);
-        var seconds = sessionTime % 60;
+        const hours = Math.floor(sessionTime / 3600);
+        const minutes = Math.floor((sessionTime % 3600) / 60);
+        const seconds = sessionTime % 60;
 
         // Format time to always show two digits
-        var formattedTime = 
+        const formattedTime = 
             String(hours).padStart(2, '0') + ":" +
             String(minutes).padStart(2, '0') + ":" +
             String(seconds).padStart(2, '0');
@@ -28,7 +35,14 @@ function startSession() {
 
         // Optional: Stop timer after a specific duration
         // if (sessionTime > 3600) { // e.g., stop after 1 hour
-        //     clearInterval(sessionTimer);
+        //     clearInterval(window.sessionTimer);
         // }
     }, 1000);
+}
+
+    // Function to update current time display
+function updateCurrentTime() {
+    const now = new Date();
+    const milliseconds = now.getTime();
+    console.log(milliseconds);
 }
