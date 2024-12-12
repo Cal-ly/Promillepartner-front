@@ -1,5 +1,4 @@
 export const template = `
-
 <div>
  <h2 id="headerPersonInformation" class="mb-4 text-center">Vis person</h2>
  <div class="mb-3">
