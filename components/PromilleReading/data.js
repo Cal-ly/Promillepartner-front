@@ -1,4 +1,5 @@
 export const data = () => ({
     latestPromilleReading: null,
-    allPromilleReadings: []
+    allPromilleReadings: [],
+    normalTimestamp: ""
 });
