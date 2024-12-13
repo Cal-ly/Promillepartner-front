@@ -176,7 +176,7 @@ export default `
       </div>
 
       <!-- Button to trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Send til Pi</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sendToPiModal">Gem drukplan</button>
     </div>
     </div> <!-- div around drukplan -->
   </div>
