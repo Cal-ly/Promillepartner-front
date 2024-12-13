@@ -1,7 +1,7 @@
 export default function () {
     return {
       errorMessage: null,
-      searchPersonID: 1,
+      searchPersonID: 2,
       startPromille: 0.0,
       targetPromille: 0.5,
       hours: 6,
