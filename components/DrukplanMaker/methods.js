@@ -17,54 +17,17 @@ export default {
     console.log("Validating settings");
      // Check if drinks list is empty
   if (this.selectedDrinks.length === 0) {
-    this.errorMessage = "Din drinkliste er tom. Vælg venligst nogle drinks.";
+    this.errorMessage = "Drinks list cannot be empty! Please select at least one drink.";
     console.log(this.errorMessage);
     return; // Stop the process
   }
-  if (this.targetPromille < 0) {
-    this.errorMessage = "Invalid ønsket promille. Din promille kan ikke være negativ.";
-    console.log(this.errorMessage);
-    return; // Stop the process
-  } 
-if (this.targetPromille > 4) {
-  this.errorMessage = "Din ønskede promille er for høj. Din promille kan ikke være over 4.";
-  console.log(this.errorMessage);
-  return; // Stop the process
-}
-
-if (this.hours < 0) {
-  this.errorMessage = "Invalid drukplan længde. Drukplan længde kan ikke være negativ.";
-  console.log(this.errorMessage);
-  return; // Stop the process
-}
-
-if (this.startPromille < 0) {
-  this.errorMessage = "Invalid start promille. Din promille kan ikke være negativ.";
-  console.log(this.errorMessage);
-  return; // Stop the process
-}
-if (this.startPromille > 4) {
-  this.errorMessage = "Din start promille er for høj. Din promille kan ikke være over 4.";
-  console.log(this.errorMessage);
-  return; // Stop the process
-}
-// if () {
-//   this.errorMessage = "Person data er ikke blevet hentet. Indtast venligst en gyldig person ID.";
-//   console.log(this.errorMessage);
-//   return; // Stop the process
-// }
-  
-
     this.errorMessage = ""; // Clear the error message if no error
     console.log("Saving settings");
     await this.getPersonByID();
-      this.saveDrinks();
-      console.log("Settings saved");
-      this.calculate();
-      this.createDrinkPlan(); // Create the drink plan after saving settings
-    
-      
-    
+    this.saveDrinks();
+    console.log("Settings saved");
+    this.calculate();
+    this.createDrinkPlan(); // Create the drink plan after saving settings
   },
 
   async getPersonByID() {
@@ -73,11 +36,8 @@ if (this.startPromille > 4) {
         `https://promillepartnerbackend.azurewebsites.net/api/person/${this.searchPersonID}`
       );
       this.personData = response.data;
-      
-      
       console.log("Person data:", this.personData);
     } catch (ex) {
-
       alert(ex.message);
     }
   },
@@ -119,7 +79,7 @@ if (this.startPromille > 4) {
     console.log("Saved drinks(fr this time):", this.savedDrinks);
   },
 
-  async createDrinkPlan() {
+  createDrinkPlan() {
     console.log("drinks for Drinkplan:", this.savedDrinks);
     const densityOfAlcohol = 7.89; // grams/ml alcohol density
     const drinkIntervals = this.savedDrinks.map(drink =>
@@ -170,18 +130,29 @@ if (this.startPromille > 4) {
   async sendToPi() {
     try {
       // Validate the data before sending
-      
-
-      const response2 = await axios.post(`https://promillepartnerbackend.azurewebsites.net/api/drinkplan`, this.convertDrinkPlanData(), {
-        headers: {
-          "Content-Type": "application/json", // Ensure correct content type
-        },
+      const data = this.convertDrinkPlanData();
+      if (!data || !data.DrinkPlan || data.DrinkPlan.length === 0) {
+        console.error("Invalid data, cannot send to API.");
+        this.responseMessage = "Sending Data Failed: No valid data to send.";
+        return;
       }
-    );
+  
+      console.log("Sending data to API:", data);
+  
+      // Send the POST request with the payload in the body
+      const response = await axios.post(
+        `https://localhost:7175/api/PromillePartnerPi/send_to_pi`, // API endpoint
+        data, // Send the data as the request body
+        {
+          headers: {
+            "Content-Type": "application/json", // Ensure correct content type
+          },
+        }
+      );
   
       // Handle successful response
-      this.responseMessage = response2.data;
-      console.log("API Response:", response2.data);
+      this.responseMessage = response.data;
+      console.log("API Response:", response.data);
     } catch (error) {
       // Enhanced error handling
       const status = error.response?.status || "Unknown";
@@ -213,44 +184,26 @@ if (this.startPromille > 4) {
     let lastTimeInSeconds = 0;
   
     // Calculate the time differences for the drink plan
-    let iterator = 0;
     this.drukplan.forEach((t) => {
-      iterator = 1 + iterator
       const currentTimeInSeconds = this.timeToSeconds(t.pauseTime); // Ensure t.pauseTime is used
       const timeDifference = currentTimeInSeconds - lastTimeInSeconds;
       if (timeDifference < 0) {
         console.warn(`Skipping invalid time difference: ${timeDifference}`);
         return;
       }
-      this.dataToSendToPie.push({ timeDifference: timeDifference, drinkName: t.drink.name }); // Update to create an object per entry
+      this.dataToSendToPie.push({ TimeDifference: timeDifference }); // Update to create an object per entry
       lastTimeInSeconds = currentTimeInSeconds; // Update lastTimeInSeconds for the next iteration
     });
   
     // Construct the payload to match the API schema
     const data = {
-      identifier: this.PiIdentifier, // Matches the API's property
-      drinkPlanen: this.dataToSendToPie, // Should be a list of objects with TimeDifference
-      timeStamp: this.timeStart, // Update to call the function
+      Identifier: this.PiIdentifier, // Matches the API's property
+      DrinkPlan: this.dataToSendToPie, // Should be a list of objects with TimeDifference
     };
   
     console.log("Prepared data for API:", data);
   
     return data;
-  },
-
-  // Function to update current time display
-updateCurrentTime() {
-  const now = new Date();
-  this.timeStart = now.getTime();
-  console.log(this.timeStart);
-},
-  
-  async saveDrinkPlanToDatabase() {
-    const response = await axios.post(`https://localhost:7175/api/DrinkPlan`, data = this.DrinkPlan, {
-        headers: {
-          "Content-Type": "application/json", // Ensure correct content type
-        },
-      }
-    );
   }
+  
 };
