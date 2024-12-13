@@ -96,7 +96,11 @@ html[data-theme="dark"] body {
 }
 
 .modal-header .btn-close {
-  filter: var(--data-theme="dark" ? invert(1) : none);
+    filter: invert(0);
+  }
+  
+  [data-theme="dark"] .modal-header .btn-close {
+    filter: invert(1);
 }
 
 /* Ensure form elements in modals also respect theme */
